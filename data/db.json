@@ -1,0 +1,398 @@
+{
+  "users": [
+    {
+      "id": "u-demo-1",
+      "username": "dr.alvarez",
+      "fullName": "Dr. Sofia Alvarez",
+      "email": "demo@hgy.local",
+      "department": "ICU",
+      "role": "doctor",
+      "verified": true,
+      "passwordHash": "ff854ee2e0f329faad096c5490a75f99:eb49c770d4eff21b02204d4f31a6ff8f37756b1d6a2c44bd38ba5217df703d6f",
+      "createdAt": "2026-05-25T05:02:59.116Z"
+    }
+  ],
+  "patients": [
+    {
+      "id": "p1",
+      "mrn": "MRN-001",
+      "name": "Jane Demo",
+      "unit": "ICU",
+      "bed": "ICU-1",
+      "room": "ICU Wing A",
+      "age": "46",
+      "sex": "F",
+      "bloodType": "O+",
+      "tag": "High Risk",
+      "status": "critical",
+      "diagnosis": "Severe pneumonia",
+      "allergies": "Penicillin",
+      "notes": "Ventilated patient; continuous monitoring required.",
+      "admittedAt": "2026-04-20T08:30:00Z",
+      "attending": "Dr. Sofia Alvarez",
+      "primaryNurse": "Nurse Mballa",
+      "deviceMap": {
+        "Bedside Monitor": "Mindray BeneVision / 10.10.30.42",
+        "Ventilator": "Vent-07",
+        "Infusion Pump": "Pump-12",
+        "Temperature Probe": "TempProbe-05"
+      }
+    },
+    {
+      "id": "p2",
+      "mrn": "MRN-002",
+      "name": "Carlos Gomez",
+      "unit": "ICU",
+      "bed": "ICU-2",
+      "room": "ICU Wing A",
+      "age": "58",
+      "sex": "M",
+      "bloodType": "A+",
+      "tag": "Isolation",
+      "status": "watch",
+      "diagnosis": "Post-operative monitoring",
+      "allergies": "",
+      "notes": "Post-operative observation.",
+      "admittedAt": "2026-04-19T11:10:00Z",
+      "attending": "Dr. Samuel Lee",
+      "primaryNurse": "Nurse Ngo",
+      "deviceMap": {
+        "Bedside Monitor": "Mindray PM12B / 10.10.30.43",
+        "Ventilator": "Vent-08",
+        "Infusion Pump": "Pump-13"
+      }
+    },
+    {
+      "id": "p3",
+      "mrn": "MRN-003",
+      "name": "Aïcha Diallo",
+      "unit": "ICU",
+      "bed": "ICU-3",
+      "room": "ICU Wing B",
+      "age": "32",
+      "sex": "F",
+      "bloodType": "B+",
+      "tag": "Allergy",
+      "status": "stable",
+      "diagnosis": "Asthma exacerbation",
+      "allergies": "Aspirin",
+      "notes": "Oxygen saturation follow-up.",
+      "admittedAt": "2026-04-18T14:45:00Z",
+      "attending": "Dr. Carlos Gomez",
+      "primaryNurse": "Nurse Talla",
+      "deviceMap": {
+        "Bedside Monitor": "Mindray BeneVision / 10.10.30.44",
+        "Infusion Pump": "Pump-14"
+      }
+    },
+    {
+      "id": "e1",
+      "mrn": "ER-201",
+      "name": "Bikoe N.",
+      "unit": "Emergency",
+      "bed": "ER-1",
+      "room": "Emergency Bay 1",
+      "age": "39",
+      "sex": "M",
+      "bloodType": "AB+",
+      "tag": "",
+      "status": "watch",
+      "diagnosis": "Chest pain evaluation",
+      "allergies": "",
+      "notes": "Emergency triage; chest pain evaluation.",
+      "admittedAt": "2026-04-21T09:05:00Z",
+      "attending": "Dr. Tchoua",
+      "primaryNurse": "Nurse Abena",
+      "deviceMap": {
+        "Bedside Monitor": "ER Monitor / 10.10.40.11"
+      }
+    },
+    {
+      "id": "r1",
+      "mrn": "RAD-011",
+      "name": "Ngono P.",
+      "unit": "Radiology",
+      "bed": "RAD-1",
+      "room": "CT Room",
+      "age": "41",
+      "sex": "F",
+      "bloodType": "O-",
+      "tag": "",
+      "status": "stable",
+      "diagnosis": "Headache workup",
+      "allergies": "",
+      "notes": "CT scan pending.",
+      "admittedAt": "2026-04-21T12:15:00Z",
+      "attending": "Dr. Mbarga",
+      "primaryNurse": "Nurse Fomo",
+      "deviceMap": {
+        "PACS": "Radiology Worklist"
+      }
+    },
+    {
+      "id": "s1",
+      "mrn": "SUR-101",
+      "name": "Manga R.",
+      "unit": "Surgery",
+      "bed": "OR-2",
+      "room": "OR-2",
+      "age": "54",
+      "sex": "M",
+      "bloodType": "A-",
+      "tag": "High Risk",
+      "status": "critical",
+      "diagnosis": "Open fracture",
+      "allergies": "",
+      "notes": "Scheduled for operation.",
+      "admittedAt": "2026-04-21T06:20:00Z",
+      "attending": "Dr. Njoya",
+      "primaryNurse": "Nurse Essono",
+      "deviceMap": {
+        "Anesthesia Monitor": "OR Monitor / 10.10.50.19",
+        "Infusion Pump": "Pump-OR2"
+      }
+    },
+    {
+      "id": "ped1",
+      "mrn": "PED-014",
+      "name": "Tata A.",
+      "unit": "Pediatrics",
+      "bed": "PEDS-2",
+      "room": "Pediatric Ward",
+      "age": "7",
+      "sex": "F",
+      "bloodType": "B-",
+      "tag": "",
+      "status": "stable",
+      "diagnosis": "Malaria rule-out",
+      "allergies": "",
+      "notes": "Fever observation.",
+      "admittedAt": "2026-04-20T16:10:00Z",
+      "attending": "Dr. Kotto",
+      "primaryNurse": "Nurse Dika",
+      "deviceMap": {
+        "Vitals Cart": "PEDS Vitals-2"
+      }
+    },
+    {
+      "id": "mat1",
+      "mrn": "MAT-007",
+      "name": "Mme K.",
+      "unit": "Maternity",
+      "bed": "MAT-1",
+      "room": "Maternity Ward",
+      "age": "29",
+      "sex": "F",
+      "bloodType": "O+",
+      "tag": "High Risk",
+      "status": "watch",
+      "diagnosis": "Pre-eclampsia surveillance",
+      "allergies": "",
+      "notes": "High-risk pregnancy observation.",
+      "admittedAt": "2026-04-19T07:50:00Z",
+      "attending": "Dr. Fopa",
+      "primaryNurse": "Midwife Bella",
+      "deviceMap": {
+        "Fetal Monitor": "FM-01",
+        "Bedside Monitor": "MAT Monitor / 10.10.60.10"
+      }
+    }
+  ],
+  "notes": [
+    {
+      "id": "n1",
+      "patientId": "p1",
+      "ts": "2026-04-21T09:15:00Z",
+      "author": "Dr. Alvarez",
+      "text": "Patient remains ventilated. Continue SpO₂ and BP trend review."
+    },
+    {
+      "id": "n2",
+      "patientId": "p2",
+      "ts": "2026-04-21T10:20:00Z",
+      "author": "Dr. Lee",
+      "text": "Post-operative observation. Pain score improved after medication."
+    }
+  ],
+  "orders": [
+    {
+      "id": "o1",
+      "patientId": "p1",
+      "ts": "2026-04-21T09:25:00Z",
+      "author": "Dr. Alvarez",
+      "status": "Active",
+      "text": "CBC, electrolytes, ABG in 4 hours"
+    },
+    {
+      "id": "o2",
+      "patientId": "p1",
+      "ts": "2026-04-21T09:30:00Z",
+      "author": "Dr. Alvarez",
+      "status": "Active",
+      "text": "Maintain SpO₂ target > 94%"
+    },
+    {
+      "id": "o3",
+      "patientId": "p2",
+      "ts": "2026-04-21T11:00:00Z",
+      "author": "Dr. Lee",
+      "status": "Pending",
+      "text": "Surgical wound review at 18:00"
+    }
+  ],
+  "labs": [
+    {
+      "id": "l1",
+      "patientId": "p1",
+      "ts": "2026-04-21T08:00:00Z",
+      "test": "Hemoglobin",
+      "value": "11.8",
+      "unit": "g/dL",
+      "flag": "Normal"
+    },
+    {
+      "id": "l2",
+      "patientId": "p1",
+      "ts": "2026-04-21T08:00:00Z",
+      "test": "WBC",
+      "value": "13.2",
+      "unit": "10^9/L",
+      "flag": "High"
+    },
+    {
+      "id": "l3",
+      "patientId": "p1",
+      "ts": "2026-04-21T08:20:00Z",
+      "test": "Lactate",
+      "value": "1.7",
+      "unit": "mmol/L",
+      "flag": "Normal"
+    },
+    {
+      "id": "l4",
+      "patientId": "p3",
+      "ts": "2026-04-21T07:50:00Z",
+      "test": "CRP",
+      "value": "18",
+      "unit": "mg/L",
+      "flag": "High"
+    }
+  ],
+  "imaging": [
+    {
+      "id": "img1",
+      "patientId": "p1",
+      "ts": "2026-04-20T17:30:00Z",
+      "modality": "X-Ray",
+      "study": "Chest X-Ray",
+      "status": "Reported",
+      "summary": "Bilateral lower-zone infiltrates; lines/tubes checked."
+    },
+    {
+      "id": "img2",
+      "patientId": "r1",
+      "ts": "2026-04-21T12:15:00Z",
+      "modality": "CT",
+      "study": "CT Head",
+      "status": "Pending",
+      "summary": "Awaiting radiologist report."
+    }
+  ],
+  "alerts": [
+    {
+      "id": "a1",
+      "patientId": "p1",
+      "ts": "2026-04-21T13:05:00Z",
+      "severity": "High",
+      "text": "SpO₂ trend approaching lower threshold."
+    },
+    {
+      "id": "a2",
+      "patientId": "p2",
+      "ts": "2026-04-21T13:10:00Z",
+      "severity": "Medium",
+      "text": "Heart rate above baseline for 15 minutes."
+    }
+  ],
+  "services": [
+    {
+      "id": "svc-icu",
+      "name": "ICU",
+      "type": "Clinical",
+      "status": "Active",
+      "description": "Central monitoring, ventilators, pumps, critical care beds."
+    },
+    {
+      "id": "svc-er",
+      "name": "Emergency",
+      "type": "Clinical",
+      "status": "Active",
+      "description": "Triage, acute care, observation bays."
+    },
+    {
+      "id": "svc-rad",
+      "name": "Radiology",
+      "type": "Diagnostic",
+      "status": "Active",
+      "description": "X-Ray, CT, ultrasound, imaging worklist."
+    },
+    {
+      "id": "svc-surg",
+      "name": "Surgery",
+      "type": "Clinical",
+      "status": "Active",
+      "description": "OR schedules, anesthesia monitoring, post-op tracking."
+    },
+    {
+      "id": "svc-lab",
+      "name": "Laboratory",
+      "type": "Diagnostic",
+      "status": "Active",
+      "description": "CBC, chemistry, lactate, blood gases."
+    },
+    {
+      "id": "svc-pharm",
+      "name": "Pharmacy",
+      "type": "Support",
+      "status": "Active",
+      "description": "Medication stock, dispensing, infusion references."
+    },
+    {
+      "id": "svc-biomed",
+      "name": "Biomedical",
+      "type": "Support",
+      "status": "Active",
+      "description": "Device inventory, connectivity, alarms and maintenance."
+    },
+    {
+      "id": "svc-admin",
+      "name": "Administration",
+      "type": "Operations",
+      "status": "Active",
+      "description": "Bed management, patient movement, occupancy."
+    }
+  ],
+  "audit": [
+    {
+      "ts": "2026-05-25T05:04:06.805Z",
+      "user": "dr.alvarez",
+      "action": "ai_analyze",
+      "target": "patient",
+      "detail": "MRN-001"
+    },
+    {
+      "ts": "2026-05-25T05:03:57.861Z",
+      "user": "dr.alvarez",
+      "action": "ai_analyze",
+      "target": "patient",
+      "detail": "MRN-001"
+    },
+    {
+      "ts": "2026-05-25T05:03:31.483Z",
+      "user": "dr.alvarez",
+      "action": "login",
+      "target": "user",
+      "detail": "dr.alvarez"
+    }
+  ]
+}

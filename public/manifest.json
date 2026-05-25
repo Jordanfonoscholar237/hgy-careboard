@@ -1,0 +1,9 @@
+{
+  "name": "HGY CareBoard",
+  "short_name": "HGY Care",
+  "start_url": "/mobile.html",
+  "display": "standalone",
+  "background_color": "#07111f",
+  "theme_color": "#0f172a",
+  "icons": []
+}
