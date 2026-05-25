@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>My HGY Patient Portal</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="patient-shell">
+    <header class="patient-header">
+      <div class="brandline">
+        <img src="assets/hgy-sign.svg" alt="HGY sign">
+        <div>
+          <h1>My Patient Portal</h1>
+          <p class="small">YAOUNDE GENERAL HOSPITAL</p>
+        </div>
+      </div>
+      <button class="btn secondary" onclick="patientLogout()">Logout</button>
+    </header>
+
+    <main class="patient-main">
+      <section class="patient-hero card">
+        <div>
+          <p class="small">Welcome</p>
+          <h2 id="portalPatientName">Patient</h2>
+          <p id="portalPatientMeta" class="small">Loading your care summary...</p>
+        </div>
+        <div class="patient-status" id="portalPatientStatus">Status</div>
+      </section>
+
+      <section class="patient-grid">
+        <div class="card">
+          <h3>Care Team</h3>
+          <div class="info-list" id="careTeam"></div>
+        </div>
+        <div class="card">
+          <h3>Medical Summary</h3>
+          <div class="info-list" id="medicalSummary"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="top">
+          <div>
+            <h3>My Vital Trends</h3>
+            <p class="small">Simulated dashboard trend preview for this prototype.</p>
+          </div>
+        </div>
+        <div class="grid">
+          <div><canvas id="pHR" class="canvas"></canvas></div>
+          <div><canvas id="pSPO2" class="canvas"></canvas></div>
+          <div><canvas id="pBP" class="canvas"></canvas></div>
+        </div>
+      </section>
+
+      <section class="patient-grid">
+        <div class="card">
+          <h3>Current Orders</h3>
+          <div class="timeline" id="patientOrders"></div>
+        </div>
+        <div class="card">
+          <h3>Lab Results</h3>
+          <div class="timeline" id="patientLabs"></div>
+        </div>
+      </section>
+
+      <section class="patient-grid">
+        <div class="card">
+          <h3>Imaging Updates</h3>
+          <div class="timeline" id="patientImaging"></div>
+        </div>
+        <div class="card">
+          <h3>Clinical Notes Shared With Me</h3>
+          <div class="timeline" id="patientNotes"></div>
+        </div>
+      </section>
+
+      <section class="card patient-disclaimer">
+        <h3>Important</h3>
+        <p>This portal is a prototype and does not replace medical advice. For emergencies, contact hospital staff immediately. For questions about your care, speak with your doctor or nurse.</p>
+      </section>
+    </main>
+  </div>
+  <script src="assets/app.js"></script>
+  <script src="assets/patient.js"></script>
+  <script>loadPatientPortal();</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HGY Patient Portal</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="auth patient-auth">
+    <div class="card">
+      <img class="logo" src="assets/hgy-sign.svg" alt="HGY sign">
+      <h1>Patient Portal</h1>
+      <p class="small">YAOUNDE GENERAL HOSPITAL — secure patient access</p>
+      <div class="patient-notice">
+        <b>For patients and families</b>
+        <p>Use your Medical Record Number and access code to view your own care summary, lab updates, imaging updates, current orders, and care team information.</p>
+      </div>
+      <a class="btn secondary" href="index.html">← Staff portal</a>
+    </div>
+
+    <div class="card">
+      <h2>Patient Login</h2>
+      <p class="small">Enter the access details provided by the hospital.</p>
+      <div id="patientLoginMsg" class="small" style="margin:.6rem 0"></div>
+      <label for="patientMrn">Medical Record Number</label>
+      <input id="patientMrn" class="input" placeholder="Example: MRN-001" autocomplete="off">
+      <label for="patientAccessCode" style="margin-top:12px">Access Code</label>
+      <input id="patientAccessCode" class="input" type="password" placeholder="Enter access code">
+      <button id="patientLoginBtn" class="btn" style="width:100%;margin-top:14px">Open My Portal</button>
+      <div class="patient-demo-box">
+        <b>Demo patient login</b>
+        <p>MRN: <code>MRN-001</code></p>
+        <p>Access code: <code>PATIENT123</code></p>
+        <p class="small">Remove demo credentials before using this with real patients.</p>
+      </div>
+    </div>
+  </div>
+  <script src="assets/patient.js"></script>
+</body>
+</html>
