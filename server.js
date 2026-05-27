@@ -20,7 +20,7 @@ app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 function readDb(){ try { return JSON.parse(fs.readFileSync(DATA_PATH, 'utf8')); } catch(e){ return {users:[],patients:[],notes:[],orders:[],labs:[],imaging:[],alerts:[],services:[],audit:[]}; } }
-function writeDb(db){ fs.writeFileSync(DATA_PATH, JSON.stringify(db, null, 2), 'utf8'); }
+function writeDb(db){ fs.mkdirSync(path.dirname(DATA_PATH), {recursive:true}); fs.writeFileSync(DATA_PATH, JSON.stringify(db, null, 2), 'utf8'); }
 function normalize(s){ return String(s||'').trim(); }
 function now(){ return new Date().toISOString(); }
 function hashPassword(password, salt = crypto.randomBytes(16).toString('hex')){ const hash = crypto.pbkdf2Sync(password, salt, 100000, 32, 'sha256').toString('hex'); return `${salt}:${hash}`; }
@@ -30,6 +30,46 @@ function otp(){ return String(Math.floor(100000 + Math.random()*900000)); }
 function publicUser(u){ return { id:u.id, username:u.username, fullName:u.fullName, email:u.email, department:u.department, verified:!!u.verified, role:u.role||'doctor' }; }
 function audit(user, action, target, detail){ const db=readDb(); db.audit=db.audit||[]; db.audit.unshift({ts:now(), user:user?user.username:'system', action, target, detail}); db.audit=db.audit.slice(0,500); writeDb(db); }
 function requireAuth(req,res,next){ const header=req.headers.authorization||''; const t=header.startsWith('Bearer ')?header.slice(7):''; const db=readDb(); const user=db.users.find(u=>u.sessionToken===t && u.sessionExp && u.sessionExp>Date.now()); if(!user) return res.status(401).json({ok:false,error:'Unauthorized'}); req.user=user; next(); }
+function requirePatientAuth(req,res,next){
+  const header=req.headers.authorization||'';
+  const t=header.startsWith('Bearer ')?header.slice(7):'';
+  const db=readDb();
+  const account=(db.patientAccess||[]).find(a=>a.sessionToken===t && a.sessionExp && a.sessionExp>Date.now());
+  if(!account) return res.status(401).json({ok:false,error:'Unauthorized patient access'});
+  const patient=(db.patients||[]).find(p=>p.id===account.patientId);
+  if(!patient) return res.status(404).json({ok:false,error:'Patient profile not found'});
+  req.patientAccount=account;
+  req.patient=patient;
+  next();
+}
+function publicPatientAccount(account, patient){
+  return {
+    id: account.id,
+    patientId: account.patientId,
+    mrn: patient.mrn,
+    name: patient.name,
+    unit: patient.unit,
+    room: patient.room,
+    bed: patient.bed,
+    verified: !!account.verified
+  };
+}
+function ensureDemoPatientAccess(){
+  const db=readDb();
+  db.patientAccess=db.patientAccess||[];
+  const patient=(db.patients||[]).find(p=>p.mrn==='MRN-001') || (db.patients||[])[0];
+  if(patient && !db.patientAccess.find(a=>a.patientId===patient.id)){
+    db.patientAccess.push({
+      id:'pa-demo-1',
+      patientId:patient.id,
+      codeHash:hashPassword('PATIENT123'),
+      verified:true,
+      createdAt:now()
+    });
+    writeDb(db);
+  }
+}
+
 async function sendVerificationEmail(user, code){
   if(String(process.env.EMAIL_DEV_MODE||'true').toLowerCase()==='true'){ console.log(`[DEV EMAIL] OTP for ${user.email}: ${code}`); return {dev:true}; }
   const transporter=nodemailer.createTransport({host:process.env.SMTP_HOST,port:Number(process.env.SMTP_PORT||587),secure:String(process.env.SMTP_SECURE||'false').toLowerCase()==='true',auth:{user:process.env.SMTP_USER,pass:process.env.SMTP_PASS}});
@@ -37,7 +77,44 @@ async function sendVerificationEmail(user, code){
   return {dev:false};
 }
 function ensureDemoUser(){ const db=readDb(); if(!db.users.find(u=>u.username==='dr.alvarez')){ db.users.push({id:'u-demo-1',username:'dr.alvarez',fullName:'Dr. Sofia Alvarez',email:'demo@hgy.local',department:'ICU',role:'doctor',verified:true,passwordHash:hashPassword('Password!123'),createdAt:now()}); writeDb(db); } }
+function ensureDemoPatientData(){
+  const db=readDb();
+  db.patients=db.patients||[];
+  if(db.patients.length) return;
+  db.patients.push({
+    id:'p1',
+    mrn:'MRN-001',
+    name:'Jane Demo',
+    unit:'ICU',
+    bed:'ICU-1',
+    room:'ICU Wing A',
+    age:'46',
+    sex:'F',
+    bloodType:'O+',
+    tag:'High Risk',
+    status:'critical',
+    diagnosis:'Severe pneumonia',
+    allergies:'Penicillin',
+    notes:'Ventilated patient; continuous monitoring required.',
+    admittedAt:'2026-04-20T08:30:00Z',
+    attending:'Dr. Sofia Alvarez',
+    primaryNurse:'Nurse Mballa',
+    deviceMap:{'Bedside Monitor':'Mindray BeneVision / demo','Ventilator':'Vent-07'}
+  });
+  db.notes=db.notes||[];
+  db.orders=db.orders||[];
+  db.labs=db.labs||[];
+  db.imaging=db.imaging||[];
+  db.notes.push({id:'n-demo-1',patientId:'p1',ts:now(),author:'Care Team',text:'Patient is under continuous monitoring. Family updates should be confirmed with the attending physician.'});
+  db.orders.push({id:'o-demo-1',patientId:'p1',ts:now(),author:'Dr. Sofia Alvarez',status:'Active',text:'Continue oxygenation monitoring and scheduled care plan.'});
+  db.labs.push({id:'l-demo-1',patientId:'p1',ts:now(),type:'CBC',text:'Demo lab update available for review with care team.'});
+  db.imaging.push({id:'i-demo-1',patientId:'p1',ts:now(),type:'Chest Imaging',text:'Demo imaging update. Final interpretation should be confirmed by clinician.'});
+  writeDb(db);
+}
+
 ensureDemoUser();
+ensureDemoPatientData();
+ensureDemoPatientAccess();
 
 function generateVitals(patientId){ const base=Math.abs([...String(patientId)].reduce((a,c)=>a+c.charCodeAt(0),0))%20; const nowMs=Date.now(); const make=(n,min,amp,speed,decimals=0)=>Array.from({length:n},(_,i)=>({t:nowMs-(n-i)*1000,v:Math.round((min+amp+Math.sin((nowMs/1000+i)/speed)*amp+Math.random()*3)*(decimals?10:1))/(decimals?10:1)})); return {HR:make(100,70+base,9,4),SPO2:make(100,95,2,5),RR:make(100,14,3,6),TEMP:make(100,36.6,.35,7,1),BP_SYS:make(100,110+base,12,8),BP_DIA:make(100,70,6,9),PEEP:make(100,5,2,12),VT:make(100,400,50,10),ETCO2:make(100,34,4,8)}; }
 function calculateRisk(patient, vitals){ const latest={}; for(const [k,arr] of Object.entries(vitals)){ latest[k]=arr[arr.length-1].v; } let score=0; if(latest.HR>110||latest.HR<50)score+=2; if(latest.SPO2<92)score+=3; if(latest.RR>24||latest.RR<8)score+=2; if(latest.TEMP>38.5||latest.TEMP<35)score+=1; if(latest.BP_SYS<90||latest.BP_SYS>160)score+=2; if(patient.status==='critical')score+=3; if(patient.tag==='High Risk')score+=2; const level=score>=7?'high':score>=4?'medium':'low'; return {score,level,latest}; }
@@ -50,6 +127,56 @@ app.post('/api/verify',(req,res)=>{ const username=normalize(req.body.username).
 app.post('/api/login',(req,res)=>{ const username=normalize(req.body.username).toLowerCase(), password=String(req.body.password||''); const db=readDb(); const user=db.users.find(u=>u.username===username); if(!user||!verifyPassword(password,user.passwordHash))return res.status(401).json({ok:false,error:'Invalid credentials'}); if(!user.verified)return res.status(403).json({ok:false,error:'Account not verified',needsVerification:true}); user.sessionToken=token(); user.sessionExp=Date.now()+8*60*60*1000; writeDb(db); audit(user,'login','user',user.username); res.json({ok:true,token:user.sessionToken,user:publicUser(user)}); });
 app.post('/api/logout',requireAuth,(req,res)=>{ const db=readDb(); const user=db.users.find(u=>u.id===req.user.id); if(user){delete user.sessionToken;delete user.sessionExp;writeDb(db);} res.json({ok:true}); });
 app.get('/api/me',requireAuth,(req,res)=>res.json({ok:true,user:publicUser(req.user)}));
+
+app.post('/api/patient/login',(req,res)=>{
+  const mrn=normalize(req.body.mrn).toUpperCase();
+  const accessCode=String(req.body.accessCode||'');
+  const db=readDb();
+  const patient=(db.patients||[]).find(p=>String(p.mrn||'').toUpperCase()===mrn);
+  if(!patient) return res.status(401).json({ok:false,error:'Invalid patient credentials'});
+  const account=(db.patientAccess||[]).find(a=>a.patientId===patient.id);
+  if(!account || !verifyPassword(accessCode, account.codeHash)) return res.status(401).json({ok:false,error:'Invalid patient credentials'});
+  account.sessionToken=token();
+  account.sessionExp=Date.now()+4*60*60*1000;
+  account.lastLogin=now();
+  writeDb(db);
+  audit({username:`patient:${patient.mrn}`},'patient_login','patient',patient.mrn);
+  res.json({ok:true,token:account.sessionToken,patient:publicPatientAccount(account,patient)});
+});
+app.post('/api/patient/logout',requirePatientAuth,(req,res)=>{
+  const db=readDb();
+  const account=(db.patientAccess||[]).find(a=>a.id===req.patientAccount.id);
+  if(account){ delete account.sessionToken; delete account.sessionExp; writeDb(db); }
+  res.json({ok:true});
+});
+app.get('/api/patient/me',requirePatientAuth,(req,res)=>{
+  res.json({ok:true,patient:publicPatientAccount(req.patientAccount,req.patient)});
+});
+app.get('/api/patient/detail',requirePatientAuth,(req,res)=>{
+  const db=readDb();
+  const patient=req.patient;
+  const related=key=>(db[key]||[]).filter(x=>x.patientId===patient.id);
+  const vitals=generateVitals(patient.id);
+  const safePatient={
+    mrn:patient.mrn,
+    name:patient.name,
+    unit:patient.unit,
+    room:patient.room,
+    bed:patient.bed,
+    age:patient.age,
+    sex:patient.sex,
+    bloodType:patient.bloodType,
+    allergies:patient.allergies,
+    diagnosis:patient.diagnosis,
+    status:patient.status,
+    admittedAt:patient.admittedAt,
+    attending:patient.attending,
+    primaryNurse:patient.primaryNurse,
+    notes:patient.notes
+  };
+  res.json({ok:true,detail:{patient:safePatient,notes:related('notes'),orders:related('orders'),labs:related('labs'),imaging:related('imaging'),vitals,risk:calculateRisk(patient,vitals)}});
+});
+
 app.get('/api/departments',requireAuth,(req,res)=>res.json({ok:true,departments:['ICU','Emergency','Radiology','Surgery','Pediatrics','Maternity','Internal Med','Laboratory','Pharmacy','Administration','Biomedical','Ambulance']}));
 app.get('/api/services',requireAuth,(req,res)=>res.json({ok:true,services:readDb().services||[]}));
 app.get('/api/patients',requireAuth,(req,res)=>{ const {unit,q,status}=req.query; let patients=readDb().patients||[]; if(unit)patients=patients.filter(p=>p.unit===unit); if(status)patients=patients.filter(p=>p.status===status); if(q){const s=String(q).toLowerCase(); patients=patients.filter(p=>[p.name,p.mrn,p.bed,p.unit,p.tag,p.diagnosis].some(v=>String(v||'').toLowerCase().includes(s)));} res.json({ok:true,patients}); });

@@ -1,14 +1,26 @@
-# HGY CareBoard Pro Suite
+# HGY CareBoard Pro Suite v3
 
-HGY CareBoard Pro Suite is a hospital patient monitoring and care coordination web application prototype for YAOUNDE GENERAL HOSPITAL.
+HGY CareBoard Pro Suite v3 is a hospital monitoring and care coordination web application prototype for YAOUNDE GENERAL HOSPITAL.
 
-The platform is designed to support hospital teams with patient monitoring, patient records, department workflows, clinical notes, orders, labs, imaging, alerts, reports, audit history, and AI-assisted risk review.
+The platform now includes two experiences:
+
+- **Staff Portal** for hospital staff, patient monitoring, roster management, clinical records, reports, alerts, and AI-style risk review.
+- **Patient Portal** for a patient to securely view only their own care summary, care team, current orders, lab updates, imaging updates, and shared notes.
 
 > **Important:** This project is a prototype. Do not use it for real clinical decisions, emergency care, or real patient data without proper security review, medical validation, access control, hosting configuration, and data-protection compliance.
 
+## Live Access
+
+After deployment, add your live Render link here:
+
+```text
+https://your-app-name.onrender.com
+```
+
 ## Features
 
-- Node.js and Express backend
+### Staff Portal
+
 - Staff signup and login
 - Email OTP verification
 - Session-based authentication
@@ -32,6 +44,22 @@ The platform is designed to support hospital teams with patient monitoring, pati
 - Reports page
 - Mobile/PWA companion interface
 
+### Patient Portal
+
+- Separate patient login page
+- Patient-only session token
+- Patient can only access their own information
+- Patient care summary
+- Care team display
+- Diagnosis/reason for care display
+- Allergies and blood type display
+- Current orders
+- Lab updates
+- Imaging updates
+- Shared clinical notes
+- Vital trend preview
+- Patient safety disclaimer
+
 ## Tech Stack
 
 - Node.js
@@ -49,13 +77,16 @@ The platform is designed to support hospital teams with patient monitoring, pati
 ## Project Structure
 
 ```text
-hgy-careboard-pro-suite/
+hgy-careboard-pro-suite-v3/
   package.json
   server.js
   README.md
   .env.example
+  .gitignore
   public/
     index.html
+    patient-login.html
+    patient-portal.html
     hub.html
     roster.html
     patient.html
@@ -66,6 +97,7 @@ hgy-careboard-pro-suite/
     assets/
       style.css
       app.js
+      patient.js
       hgy-sign.svg
   data/
     db.json
@@ -76,13 +108,13 @@ hgy-careboard-pro-suite/
 Clone the repository:
 
 ```bash
-git clone https://github.com/ https://github.com/Jordanfonoscholar237/hgy-careboard.git
+git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY-NAME.git
 ```
 
 Go into the project folder:
 
 ```bash
-cd hgy-careboard
+cd YOUR-REPOSITORY-NAME
 ```
 
 Install dependencies:
@@ -117,7 +149,7 @@ Open in your browser:
 http://localhost:8080
 ```
 
-## Demo Login
+## Staff Demo Login
 
 For local testing only:
 
@@ -127,6 +159,23 @@ Password: Password!123
 ```
 
 Change or remove demo credentials before any real deployment.
+
+## Patient Demo Login
+
+Open:
+
+```text
+http://localhost:8080/patient-login.html
+```
+
+Demo patient credentials:
+
+```text
+MRN: MRN-001
+Access Code: PATIENT123
+```
+
+This demo account is only for testing. Do not use demo credentials with real patient data.
 
 ## Environment Variables
 
@@ -153,6 +202,8 @@ OPENAI_API_KEY=
 OPENAI_MODEL=gpt-4.1-mini
 ```
 
+Do not upload real SMTP passwords, OpenAI keys, session secrets, or private `.env` files to GitHub.
+
 ## Email Verification
 
 For local development:
@@ -174,8 +225,6 @@ SMTP_USER=your_email@gmail.com
 SMTP_PASS=your_gmail_app_password
 MAIL_FROM="HGY CareBoard <your_email@gmail.com>"
 ```
-
-Do not upload real SMTP passwords or private keys to GitHub.
 
 ## AI Analysis
 
@@ -246,25 +295,25 @@ After deployment, Render will provide a live link such as:
 https://your-app-name.onrender.com
 ```
 
-## Patient Access Notes
+## Patient Access Safety Notes
 
-This project currently behaves like a hospital staff dashboard. It should not be treated as a full patient portal unless patient-specific access control is added.
+The patient portal is separate from the staff dashboard and is designed to return only the logged-in patient's own information.
 
-For a safe patient-facing version, add:
+Before using with real patients, add or review:
 
-- Patient login
-- Patient-only dashboard
+- Strong patient identity verification
+- Patient-specific access codes generated securely
 - Role-based access control
-- Access limited to one patient's own records
 - Secure database storage
 - HTTPS
-- Password reset
-- Email verification
+- Password reset and access-code reset workflows
+- Email or SMS verification
 - Audit logging
 - Data backup
 - Privacy and security review
+- Clear medical disclaimers
 
-Do not give patients access to a staff dashboard that can display other patients' information.
+Do not give patients access to the staff dashboard.
 
 ## Production Recommendations
 
