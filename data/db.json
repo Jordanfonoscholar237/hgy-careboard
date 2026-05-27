@@ -9,7 +9,9 @@
       "role": "doctor",
       "verified": true,
       "passwordHash": "ff854ee2e0f329faad096c5490a75f99:eb49c770d4eff21b02204d4f31a6ff8f37756b1d6a2c44bd38ba5217df703d6f",
-      "createdAt": "2026-05-25T05:02:59.116Z"
+      "createdAt": "2026-05-25T05:02:59.116Z",
+      "sessionToken": "1bb8164db89b95c3c2057278e38634281aeb935be42b1fae",
+      "sessionExp": 1779718493416
     }
   ],
   "patients": [
@@ -373,6 +375,13 @@
     }
   ],
   "audit": [
+    {
+      "ts": "2026-05-25T06:14:53.422Z",
+      "user": "dr.alvarez",
+      "action": "login",
+      "target": "user",
+      "detail": "dr.alvarez"
+    },
     {
       "ts": "2026-05-25T05:04:06.805Z",
       "user": "dr.alvarez",
