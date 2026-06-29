@@ -42,6 +42,7 @@ Real integrations must use hospital-approved, vendor-supported interfaces such a
 
 ## Installation
 
+## Installation
 ```bash
 git clone https://github.com/YOUR_USERNAME/lifeview-central.git
 cd lifeview-central
@@ -49,6 +50,61 @@ npm install
 cp .env.example .env
 npm start
 ```
+Open `http://localhost:8080`.
+
+## Demo login
+- Staff username: `dr.alvarez`
+- Password: `Password!123`
+- Patient portal MRN: `MRN-001`
+- Patient access code: `PATIENT123`
+
+## Environment variables
+See `.env.example`.
+- `EMAIL_DEV_MODE=true` keeps email verification local for demos.
+- `AI_MODE=local` works without external APIs.
+- `AI_MODE=openai` uses `OPENAI_API_KEY` if provided.
+- `DEVICE_INGEST_API_KEY` protects the device-ingestion demo endpoint when set to a non-default value.
+
+## Deployment notes (Render or similar)
+1. Create a Node.js web service.
+2. Set build command: `npm install`.
+3. Set start command: `npm start`.
+4. Add environment variables from `.env.example` in the host dashboard.
+5. Keep `.env` private and never commit secrets.
+
+## Screenshots
+Add screenshots here before public launch:
+- Landing/login page
+- Hospital dashboard
+- Patient detail monitoring page
+- Reports / AI risk queue
+- Mobile/PWA view
+
+## Security and privacy notes
+- This is a prototype MVP, not a regulated clinical system.
+- Use synthetic, de-identified sample records for portfolio and presentation environments.
+- Real deployments require authentication hardening, encryption, database access controls, audit retention, clinical validation, vendor approvals, and compliance review.
+- Device integrations require secure gateways and approved hospital/vendor interfaces.
+
+## Roadmap
+- Production database and migrations
+- Role-based permissions for doctor, nurse, biomedical engineer, and admin workflows
+- FHIR/HL7 integration layer
+- Device adapter SDK and queue-based ingestion
+- More advanced trend analytics and explainable alert thresholds
+- Offline-first PWA support
+- Deployment hardening and observability
+
+## GitHub repository setup
+Suggested repository description:
+> Hospital-wide patient monitoring platform with real-time device data, dashboards, alerts, AI analysis, and mobile/PWA support.
+
+Recommended topics: `healthcare`, `healthtech`, `patient-monitoring`, `hospital-management`, `medical-dashboard`, `ai-healthcare`, `iot`, `nodejs`, `express`, `pwa`.
+
+Rename repository to `lifeview-central`:
+```bash
+# Option A: GitHub CLI
+gh repo rename lifeview-central
 
 Open `http://localhost:8080`.
 
