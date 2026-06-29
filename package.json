@@ -1,21 +1,10 @@
 {
-  "name": "hgy-careboard-pro-suite-v3",
-  "version": "3.0.0",
-  "description": "LifeView Central / HGY CareBoard Pro Suite v3: hospital-wide monitoring, patient management, AI analysis, PWA mobile viewer, and email verification.",
+  "name": "lifeview-central",
+  "version": "1.0.0",
+  "description": "Hospital-wide patient monitoring platform with real-time device data, dashboards, alerts, AI analysis, and mobile/PWA support.",
   "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.18.3",
-    "helmet": "^7.1.0",
-    "morgan": "^1.10.0",
-    "nodemailer": "^6.9.13"
-  },
-  "engines": {
-    "node": ">=18"
-  }
+  "scripts": {"start":"node server.js","dev":"node server.js","check":"node --check server.js"},
+  "dependencies": {"cors":"^2.8.5","dotenv":"^16.4.5","express":"^4.18.3","helmet":"^7.1.0","morgan":"^1.10.0","nodemailer":"^6.9.13"},
+  "engines": {"node": ">=18"},
+  "license":"MIT"
 }

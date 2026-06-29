@@ -1,9 +1,1 @@
-{
-  "name": "HGY CareBoard",
-  "short_name": "HGY Care",
-  "start_url": "/mobile.html",
-  "display": "standalone",
-  "background_color": "#07111f",
-  "theme_color": "#0f172a",
-  "icons": []
-}
+{"name":"LifeView Central","short_name":"LifeView","start_url":"/index.html","display":"standalone","background_color":"#f8feff","theme_color":"#0ea5e9","description":"Hospital-wide patient monitoring dashboard with simulated device data, alerts, reports, and AI-assisted review.","icons":[]}

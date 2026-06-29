@@ -1,6 +1,6 @@
-# HGY CareBoard 
+# LifeView Central 
 
-HGY CareBoard  is a hospital monitoring and care coordination web application prototype for YAOUNDE GENERAL HOSPITAL.
+LifeView Central is a hospital monitoring and care coordination web application prototype for YAOUNDE GENERAL HOSPITAL.
 
 The platform includes two experiences:
 
@@ -77,7 +77,7 @@ https://your-app-name.onrender.com
 ## Project Structure
 
 ```text
-hgy-careboard-pro-suite-v3/
+lifeview-central/
   package.json
   server.js
   README.md
@@ -98,7 +98,7 @@ hgy-careboard-pro-suite-v3/
       style.css
       app.js
       patient.js
-      hgy-sign.svg
+      lifeview-logo.svg
   data/
     db.json
 ```
@@ -108,13 +108,13 @@ hgy-careboard-pro-suite-v3/
 Clone the repository:
 
 ```bash
-git clone  https://github.com/Jordanfonoscholar237/hgy-careboard.git
+git clone https://github.com/Jordanfonoscholar237/lifeview-central.git
 ```
 
 Go into the project folder:
 
 ```bash
-cd hgy-careboard
+cd lifeview-central
 ```
 
 Install dependencies:
@@ -195,7 +195,7 @@ SMTP_PORT=587
 SMTP_SECURE=false
 SMTP_USER=your_email@gmail.com
 SMTP_PASS=your_gmail_app_password
-MAIL_FROM="HGY CareBoard <your_email@gmail.com>"
+MAIL_FROM="LifeView Central <your_email@gmail.com>"
 
 AI_MODE=mock
 OPENAI_API_KEY=
@@ -223,7 +223,7 @@ SMTP_PORT=587
 SMTP_SECURE=false
 SMTP_USER=your_email@gmail.com
 SMTP_PASS=your_gmail_app_password
-MAIL_FROM="HGY CareBoard <your_email@gmail.com>"
+MAIL_FROM="LifeView Central <your_email@gmail.com>"
 ```
 
 ## AI Analysis
@@ -342,4 +342,17 @@ Email:
 
 ```text
 jordanfonoscholar237@gmail.com
+```
+
+
+## Repository Rename
+
+Recommended GitHub repository name: `lifeview-central`.
+
+Using GitHub CLI:
+
+```bash
+gh repo rename lifeview-central --yes
+git remote set-url origin https://github.com/YOUR_USERNAME/lifeview-central.git
+git remote -v
 ```
