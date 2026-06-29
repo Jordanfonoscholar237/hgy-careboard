@@ -2,67 +2,49 @@
 
 Hospital-wide patient monitoring platform with real-time device data, dashboards, alerts, AI analysis, and mobile/PWA support.
 
-> Prototype build for product demonstration. Clinical review and local regulatory validation are required before any real-world deployment.
+LifeView Central is a hospital-wide patient monitoring and clinical intelligence MVP. It demonstrates how automated medical machines can send real-time data through an authorized device gateway/API into a backend, prototype database, web/mobile dashboards, alerts, reports, and careful AI-assisted review.
 
-## Problem solved
-Hospitals often have patient information, bedside monitor values, laboratory updates, imaging status, and clinical handover notes scattered across rooms, paper, and separate systems. LifeView Central demonstrates one unified command center where clinicians can see patient status faster and coordinate safer care.
+> **Prototype and safety disclaimer:** This project is for portfolio, demo, and accelerator application use only. Do not use real patient data in public demos. Do not use this system for diagnosis, treatment, emergency response, or live clinical decisions without hospital authorization, validated device integrations, cybersecurity review, clinical governance, and regulatory/data-protection compliance.
 
-## Key features
-- Professional landing/login page focused on one command center for monitoring, alerts, and clinical coordination.
-- Department hub: ICU, Emergency, Surgery, Radiology, Maternity, Pediatrics, Laboratory, Pharmacy, Biomedical, Administration.
-- Patient roster with add, edit, delete, search, filter, status badges, and empty states.
-- Patient details: admission, diagnosis, allergies, doctor, nurse, room/bed, blood type, notes, orders, labs, imaging, alerts.
-- Simulated real-time vitals: HR, SpO₂, BP, RR, temperature, ventilator values, EtCO₂.
-- Central monitoring wall and reports with alarm/risk colors.
-- Alerts with low, medium, high, critical severity labels.
-- AI-style clinical support demo with abnormal value summary, risk score, careful recommendations, and audit logging.
-- Mobile/PWA companion and patient portal demo.
-- Device ingestion API for future authorized gateway integrations.
+## Problem
 
-## Tech stack
-- Node.js + Express
-- JSON demo database in `data/db.json`
-- Vanilla HTML/CSS/JavaScript frontend
-- PWA manifest and service worker
-- Optional SMTP email verification
-- Optional OpenAI API mode via `.env`
+Hospitals often have patient information spread across bedside devices, ward notes, lab systems, imaging systems, and manual reporting workflows. LifeView Central shows a unified command center for doctors, nurses, biomedical engineers, and administrators so teams can see patient status faster and coordinate safer care.
+
+## Key Features
+
+- Staff authentication with email OTP development mode.
+- Role concept for doctor, nurse, biomedical engineer, and admin users.
+- Department hub: ICU, Emergency, Surgery, Radiology, Maternity, Pediatrics, Laboratory, Pharmacy, Biomedical, and Administration.
+- Patient list with add, edit, delete, search, filter, and monitoring links.
+- Patient detail page with admission data, diagnosis, allergies, attending doctor, nurse, room/bed, blood type, notes, orders, labs, imaging, alerts, and connected devices.
+- Simulated vitals: HR, SpO₂, BP, RR, temperature, ventilator values, and EtCO₂.
+- Central monitoring/risk queue with severity-aware alert styling.
+- Reports, audit logs, and AI decision-support history.
+- Mobile/PWA companion page and patient portal demo.
+- Device ingestion API and example JSON payloads for bedside monitors, ventilators, infusion pumps, lab analyzers, and imaging systems.
+
+## Tech Stack
+
+Node.js, Express.js, HTML, CSS, vanilla JavaScript, JSON prototype storage, Nodemailer, Helmet, CORS, Morgan, dotenv, PWA manifest/service worker.
 
 ## Architecture
+
 ```text
 Medical devices / automated machines
-  -> authorized device adapter or gateway API
-  -> LifeView Central backend (/api/device/ingest)
-  -> demo JSON database / future production database
-  -> web dashboard + mobile/PWA views
-  -> alerts, audit logs, and decision-support analysis
+  -> authorized device adapter or hospital gateway API
+  -> LifeView Central Express backend
+  -> prototype JSON database (replace with production DB later)
+  -> staff dashboards + mobile/PWA + patient portal
+  -> alerts, reports, audit logs, and AI-assisted review
 ```
 
-Real hospital device integration must be authorized, secure, validated, and done through vendor-supported interfaces, HL7/FHIR, gateway APIs, or approved protocols.
+Real integrations must use hospital-approved, vendor-supported interfaces such as HL7/FHIR, DICOM/PACS, gateway APIs, or approved protocols. Biomedical engineering, IT security, clinical leadership, and device vendors must validate any production connection.
 
-## Device integration demo
-Endpoint:
-```bash
-POST /api/device/ingest
-Content-Type: application/json
-x-device-api-key: your-demo-key
-```
-
-Example bedside monitor payload:
-```json
-{
-  "patientId": "p1",
-  "deviceType": "bedside-monitor",
-  "deviceId": "MON-ICU-01",
-  "values": { "HR": 118, "SPO2": 91, "BP_SYS": 88, "BP_DIA": 54, "RR": 28, "TEMP": 38.6, "ETCO2": 31 },
-  "alerts": [{ "severity": "Critical", "text": "Low SpO2 and hypotension threshold crossed" }]
-}
-```
-
-More examples are available at `/api/device/examples` for bedside monitors, ventilators, infusion pumps, lab machines, and imaging systems.
+## Installation
 
 ## Installation
 ```bash
-git clone https://github.com/<your-github-username>/lifeview-central.git
+git clone https://github.com/YOUR_USERNAME/lifeview-central.git
 cd lifeview-central
 npm install
 cp .env.example .env
@@ -124,16 +106,166 @@ Rename repository to `lifeview-central`:
 # Option A: GitHub CLI
 gh repo rename lifeview-central
 
-# Option B: GitHub website
-# Repository Settings -> General -> Repository name -> lifeview-central
+Open `http://localhost:8080`.
 
-# Then update local remote if needed
-git remote set-url origin https://github.com/<your-github-username>/lifeview-central.git
+## Demo Login
+
+Staff portal:
+
+```text
+Username: dr.alvarez
+Password: Password!123
+```
+
+Patient portal:
+
+```text
+MRN: MRN-001
+Access Code: PATIENT123
+```
+
+Remove or rotate demo credentials before private testing with any sensitive data.
+
+## Environment Variables
+
+See `.env.example`.
+
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_gmail_app_password
+MAIL_FROM="LifeView Central <your_email@gmail.com>"
+
+AI_MODE=mock
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-4.1-mini
+```
+
+Do not upload real SMTP passwords, OpenAI keys, session secrets, or private `.env` files to GitHub.
+
+## Email Verification
+
+For local development:
+
+```env
+EMAIL_DEV_MODE=true
+```
+
+When development mode is enabled, OTP codes are printed in the terminal for testing.
+
+For real email verification:
+
+```env
+EMAIL_DEV_MODE=false
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_gmail_app_password
+MAIL_FROM="LifeView Central <your_email@gmail.com>"
+```
+
+## AI Analysis
+- `EMAIL_DEV_MODE=true` prints OTP codes for local testing.
+- `AI_MODE=mock` works without external services.
+- `AI_MODE=openai` only uses OpenAI when `OPENAI_API_KEY` is configured.
+
+## Device Ingestion Demo
+
+Get example payloads:
+
+```bash
+curl http://localhost:8080/api/device/examples
+```
+
+Post demo data:
+
+```bash
+curl -X POST http://localhost:8080/api/device/ingest \
+  -H "Content-Type: application/json" \
+  -d '{"patientId":"p1","deviceType":"bedside_monitor","deviceId":"MON-ICU-01","values":{"HR":118,"SPO2":91,"BP_SYS":96,"BP_DIA":60,"RR":26,"TEMP":38.4,"ETCO2":35}}'
+```
+
+## Deployment Notes (Render or similar)
+
+1. Create a Web Service from the GitHub repository.
+2. Build command: `npm install`.
+3. Start command: `npm start`.
+4. Add environment variables from `.env.example` in the hosting dashboard.
+5. Do not upload `.env`, real SMTP passwords, OpenAI keys, or real patient data.
+6. Replace JSON storage with a production database before serious pilots.
+
+## Screenshots
+
+Add presentation screenshots here after deployment:
+
+- Landing/login page
+- Hospital dashboard
+- Patient roster
+- Patient monitoring page
+- Reports and AI risk queue
+- Mobile/PWA view
+
+## Roadmap
+
+- Production database and migrations.
+- Stronger RBAC and audit export.
+- HL7/FHIR/DICOM integration adapters.
+- Device gateway authentication and queueing.
+- Alert escalation workflows.
+- Clinician-reviewed AI prompt and validation process.
+- Offline-capable PWA improvements.
+
+## GitHub Presentation
+
+Suggested repository description:
+
+> Hospital-wide patient monitoring platform with real-time device data, dashboards, alerts, AI analysis, and mobile/PWA support.
+
+Recommended topics: `healthcare`, `healthtech`, `patient-monitoring`, `hospital-management`, `medical-dashboard`, `ai-healthcare`, `iot`, `nodejs`, `express`, `pwa`.
+
+## Rename Repository
+
+If using GitHub CLI:
+
+```bash
+gh repo rename lifeview-central --yes
+git remote -v
+git remote set-url origin https://github.com/YOUR_USERNAME/lifeview-central.git
 git remote -v
 ```
 
+Or use GitHub: repository **Settings → General → Repository name → lifeview-central**.
+
 ## License
+
 MIT. See `LICENSE`.
 
 ## Contact
-Add your GitHub profile, LinkedIn, email, or accelerator contact here.
+
+Project owner:
+
+```text
+FONO PEVETMI JORDAN LOIC
+```
+
+Email:
+
+```text
+jordanfonoscholar237@gmail.com
+```
+
+
+## Repository Rename
+
+Recommended GitHub repository name: `lifeview-central`.
+
+Using GitHub CLI:
+
+```bash
+gh repo rename lifeview-central --yes
+git remote set-url origin https://github.com/YOUR_USERNAME/lifeview-central.git
+git remote -v
+```
+Add your GitHub profile, email, or portfolio link here before publishing.
