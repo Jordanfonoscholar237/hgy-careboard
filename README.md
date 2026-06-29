@@ -1,194 +1,78 @@
-# LifeView Central 
+# LifeView Central
 
-LifeView Central is a hospital monitoring and care coordination web application prototype for YAOUNDE GENERAL HOSPITAL.
+Hospital-wide patient monitoring platform with real-time device data, dashboards, alerts, AI analysis, and mobile/PWA support.
 
-The platform includes two experiences:
+LifeView Central is a hospital-wide patient monitoring and clinical intelligence MVP. It demonstrates how automated medical machines can send real-time data through an authorized device gateway/API into a backend, prototype database, web/mobile dashboards, alerts, reports, and careful AI-assisted review.
 
-- **Staff Portal** for hospital staff, patient monitoring, roster management, clinical records, reports, alerts, and AI-style risk review.
-- **Patient Portal** for a patient to securely view only their own care summary, care team, current orders, lab updates, imaging updates, and shared notes.
+> **Prototype and safety disclaimer:** This project is for portfolio, demo, and accelerator application use only. Do not use real patient data in public demos. Do not use this system for diagnosis, treatment, emergency response, or live clinical decisions without hospital authorization, validated device integrations, cybersecurity review, clinical governance, and regulatory/data-protection compliance.
 
-> **Important:** This project is a prototype. Do not use it for real clinical decisions, emergency care, or real patient data without proper security review, medical validation, access control, hosting configuration, and data-protection compliance.
+## Problem
 
-## Live Access
+Hospitals often have patient information spread across bedside devices, ward notes, lab systems, imaging systems, and manual reporting workflows. LifeView Central shows a unified command center for doctors, nurses, biomedical engineers, and administrators so teams can see patient status faster and coordinate safer care.
 
-After deployment, add your live Render link here:
+## Key Features
 
-```text
-https://your-app-name.onrender.com
-```
-
-## Features
-
-### Staff Portal
-
-- Staff signup and login
-- Email OTP verification
-- Session-based authentication
-- Hospital department and service hub
-- Patient roster with add, edit, delete, search, and filter features
-- Central patient monitoring cards
-- Detailed patient profile page
-- Admission and diagnosis information
-- Allergies and blood type tracking
-- Attending doctor and primary nurse fields
-- Connected device information
-- Monitor graphs and vital signs
-- Ventilator-related data
-- Clinical notes
-- Medical orders
-- Lab records
-- Imaging records
-- Alerts and risk queue
-- AI-assisted analysis mode
-- Audit trail
-- Reports page
-- Mobile/PWA companion interface
-
-### Patient Portal
-
-- Separate patient login page
-- Patient-only session token
-- Patient can only access their own information
-- Patient care summary
-- Care team display
-- Diagnosis/reason for care display
-- Allergies and blood type display
-- Current orders
-- Lab updates
-- Imaging updates
-- Shared clinical notes
-- Vital trend preview
-- Patient safety disclaimer
+- Staff authentication with email OTP development mode.
+- Role concept for doctor, nurse, biomedical engineer, and admin users.
+- Department hub: ICU, Emergency, Surgery, Radiology, Maternity, Pediatrics, Laboratory, Pharmacy, Biomedical, and Administration.
+- Patient list with add, edit, delete, search, filter, and monitoring links.
+- Patient detail page with admission data, diagnosis, allergies, attending doctor, nurse, room/bed, blood type, notes, orders, labs, imaging, alerts, and connected devices.
+- Simulated vitals: HR, SpO₂, BP, RR, temperature, ventilator values, and EtCO₂.
+- Central monitoring/risk queue with severity-aware alert styling.
+- Reports, audit logs, and AI decision-support history.
+- Mobile/PWA companion page and patient portal demo.
+- Device ingestion API and example JSON payloads for bedside monitors, ventilators, infusion pumps, lab analyzers, and imaging systems.
 
 ## Tech Stack
 
-- Node.js
-- Express.js
-- HTML
-- CSS
-- JavaScript
-- JSON file storage for prototype data
-- Nodemailer for email verification
-- Helmet for basic security headers
-- CORS
-- Morgan request logging
-- dotenv for environment variables
+Node.js, Express.js, HTML, CSS, vanilla JavaScript, JSON prototype storage, Nodemailer, Helmet, CORS, Morgan, dotenv, PWA manifest/service worker.
 
-## Project Structure
+## Architecture
 
 ```text
-lifeview-central/
-  package.json
-  server.js
-  README.md
-  .env.example
-  .gitignore
-  public/
-    index.html
-    patient-login.html
-    patient-portal.html
-    hub.html
-    roster.html
-    patient.html
-    reports.html
-    mobile.html
-    manifest.json
-    service-worker.js
-    assets/
-      style.css
-      app.js
-      patient.js
-      lifeview-logo.svg
-  data/
-    db.json
+Medical devices / automated machines
+  -> authorized device adapter or hospital gateway API
+  -> LifeView Central Express backend
+  -> prototype JSON database (replace with production DB later)
+  -> staff dashboards + mobile/PWA + patient portal
+  -> alerts, reports, audit logs, and AI-assisted review
 ```
 
-## Run Locally
+Real integrations must use hospital-approved, vendor-supported interfaces such as HL7/FHIR, DICOM/PACS, gateway APIs, or approved protocols. Biomedical engineering, IT security, clinical leadership, and device vendors must validate any production connection.
 
-Clone the repository:
-
-```bash
-git clone https://github.com/Jordanfonoscholar237/lifeview-central.git
-```
-
-Go into the project folder:
+## Installation
 
 ```bash
+git clone https://github.com/YOUR_USERNAME/lifeview-central.git
 cd lifeview-central
-```
-
-Install dependencies:
-
-```bash
 npm install
-```
-
-Create your environment file.
-
-Windows:
-
-```bash
-copy .env.example .env
-```
-
-macOS/Linux:
-
-```bash
 cp .env.example .env
-```
-
-Start the app:
-
-```bash
 npm start
 ```
 
-Open in your browser:
+Open `http://localhost:8080`.
 
-```text
-http://localhost:8080
-```
+## Demo Login
 
-## Staff Demo Login
-
-For local testing only:
+Staff portal:
 
 ```text
 Username: dr.alvarez
 Password: Password!123
 ```
 
-Change or remove demo credentials before any real deployment.
-
-## Patient Demo Login
-
-Open:
-
-```text
-http://localhost:8080/patient-login.html
-```
-
-Demo patient credentials:
+Patient portal:
 
 ```text
 MRN: MRN-001
 Access Code: PATIENT123
 ```
 
-This demo account is only for testing. Do not use demo credentials with real patient data.
+Remove or rotate demo credentials before private testing with any sensitive data.
 
 ## Environment Variables
 
-The project uses environment variables from `.env`.
-
-Example:
-
-```env
-PORT=8080
-APP_BASE_URL=http://localhost:8080
-SESSION_SECRET=change_this_secret
-
-EMAIL_DEV_MODE=true
+See `.env.example`.
 
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
@@ -227,108 +111,80 @@ MAIL_FROM="LifeView Central <your_email@gmail.com>"
 ```
 
 ## AI Analysis
+- `EMAIL_DEV_MODE=true` prints OTP codes for local testing.
+- `AI_MODE=mock` works without external services.
+- `AI_MODE=openai` only uses OpenAI when `OPENAI_API_KEY` is configured.
 
-Default mode:
+## Device Ingestion Demo
 
-```env
-AI_MODE=mock
+Get example payloads:
+
+```bash
+curl http://localhost:8080/api/device/examples
 ```
 
-Optional external AI mode:
+Post demo data:
 
-```env
-AI_MODE=openai
-OPENAI_API_KEY=your_api_key
-OPENAI_MODEL=gpt-4.1-mini
+```bash
+curl -X POST http://localhost:8080/api/device/ingest \
+  -H "Content-Type: application/json" \
+  -d '{"patientId":"p1","deviceType":"bedside_monitor","deviceId":"MON-ICU-01","values":{"HR":118,"SPO2":91,"BP_SYS":96,"BP_DIA":60,"RR":26,"TEMP":38.4,"ETCO2":35}}'
 ```
 
-Do not upload real API keys to GitHub.
+## Deployment Notes (Render or similar)
 
-## GitHub Upload Notes
+1. Create a Web Service from the GitHub repository.
+2. Build command: `npm install`.
+3. Start command: `npm start`.
+4. Add environment variables from `.env.example` in the hosting dashboard.
+5. Do not upload `.env`, real SMTP passwords, OpenAI keys, or real patient data.
+6. Replace JSON storage with a production database before serious pilots.
 
-Before uploading to GitHub, create a `.gitignore` file.
+## Screenshots
 
-Recommended `.gitignore`:
+Add presentation screenshots here after deployment:
 
-```gitignore
-node_modules/
-.env
-npm-debug.log*
-.DS_Store
-.vscode/
-.idea/
+- Landing/login page
+- Hospital dashboard
+- Patient roster
+- Patient monitoring page
+- Reports and AI risk queue
+- Mobile/PWA view
+
+## Roadmap
+
+- Production database and migrations.
+- Stronger RBAC and audit export.
+- HL7/FHIR/DICOM integration adapters.
+- Device gateway authentication and queueing.
+- Alert escalation workflows.
+- Clinician-reviewed AI prompt and validation process.
+- Offline-capable PWA improvements.
+
+## GitHub Presentation
+
+Suggested repository description:
+
+> Hospital-wide patient monitoring platform with real-time device data, dashboards, alerts, AI analysis, and mobile/PWA support.
+
+Recommended topics: `healthcare`, `healthtech`, `patient-monitoring`, `hospital-management`, `medical-dashboard`, `ai-healthcare`, `iot`, `nodejs`, `express`, `pwa`.
+
+## Rename Repository
+
+If using GitHub CLI:
+
+```bash
+gh repo rename lifeview-central --yes
+git remote -v
+git remote set-url origin https://github.com/YOUR_USERNAME/lifeview-central.git
+git remote -v
 ```
 
-If `data/db.json` contains real or sensitive patient information, do not upload it. Add this line to `.gitignore`:
+Or use GitHub: repository **Settings → General → Repository name → lifeview-central**.
 
-```gitignore
-data/db.json
-```
+## License
 
-For public GitHub repositories, only upload demo or fake patient data.
-
-## Deployment on Render
-
-This project can be deployed on Render as a Node.js web service.
-
-Use these settings:
-
-```text
-Runtime: Node
-Build Command: npm install
-Start Command: npm start
-```
-
-Add environment variables on Render:
-
-```text
-SESSION_SECRET=your_long_secure_secret
-EMAIL_DEV_MODE=true
-AI_MODE=mock
-```
-
-For production email sending, also add the SMTP variables shown above.
-
-After deployment, Render will provide a live link such as:
-
-```text
-https://your-app-name.onrender.com
-```
-
-## Patient Access Safety Notes
-
-The patient portal is separate from the staff dashboard and is designed to return only the logged-in patient's own information.
-
-Before using with real patients, add or review:
-
-- Strong patient identity verification
-- Patient-specific access codes generated securely
-- Role-based access control
-- Secure database storage
-- HTTPS
-- Password reset and access-code reset workflows
-- Email or SMS verification
-- Audit logging
-- Data backup
-- Privacy and security review
-- Clear medical disclaimers
-
-Do not give patients access to the staff dashboard.
-
-## Production Recommendations
-
-Before using this with real patient data:
-
-- Replace JSON file storage with a secure database
-- Use strong session secrets
-- Store passwords and secrets only in environment variables
-- Use HTTPS
-- Add role-based permissions
-- Add patient-specific access rules
-- Add backup and recovery
-- Review privacy, security, and healthcare data requirements
-- Remove demo accounts and demo passwords
-- Do not store real patient data in GitHub
+MIT. See `LICENSE`.
 
 ## Contact
 
@@ -356,3 +212,4 @@ gh repo rename lifeview-central --yes
 git remote set-url origin https://github.com/YOUR_USERNAME/lifeview-central.git
 git remote -v
 ```
+Add your GitHub profile, email, or portfolio link here before publishing.
