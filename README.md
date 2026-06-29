@@ -74,6 +74,43 @@ Remove or rotate demo credentials before private testing with any sensitive data
 
 See `.env.example`.
 
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_gmail_app_password
+MAIL_FROM="LifeView Central <your_email@gmail.com>"
+
+AI_MODE=mock
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-4.1-mini
+```
+
+Do not upload real SMTP passwords, OpenAI keys, session secrets, or private `.env` files to GitHub.
+
+## Email Verification
+
+For local development:
+
+```env
+EMAIL_DEV_MODE=true
+```
+
+When development mode is enabled, OTP codes are printed in the terminal for testing.
+
+For real email verification:
+
+```env
+EMAIL_DEV_MODE=false
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_gmail_app_password
+MAIL_FROM="LifeView Central <your_email@gmail.com>"
+```
+
+## AI Analysis
 - `EMAIL_DEV_MODE=true` prints OTP codes for local testing.
 - `AI_MODE=mock` works without external services.
 - `AI_MODE=openai` only uses OpenAI when `OPENAI_API_KEY` is configured.
@@ -151,4 +188,28 @@ MIT. See `LICENSE`.
 
 ## Contact
 
+Project owner:
+
+```text
+FONO PEVETMI JORDAN LOIC
+```
+
+Email:
+
+```text
+jordanfonoscholar237@gmail.com
+```
+
+
+## Repository Rename
+
+Recommended GitHub repository name: `lifeview-central`.
+
+Using GitHub CLI:
+
+```bash
+gh repo rename lifeview-central --yes
+git remote set-url origin https://github.com/YOUR_USERNAME/lifeview-central.git
+git remote -v
+```
 Add your GitHub profile, email, or portfolio link here before publishing.
