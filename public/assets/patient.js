@@ -1,6 +1,6 @@
-function pToken(){ return localStorage.getItem('hgy_patient_token') || ''; }
-function setPToken(v){ localStorage.setItem('hgy_patient_token', v); }
-function clearPToken(){ localStorage.removeItem('hgy_patient_token'); localStorage.removeItem('hgy_patient_user'); }
+function pToken(){ return localStorage.getItem('lifeview_patient_token') || ''; }
+function setPToken(v){ localStorage.setItem('lifeview_patient_token', v); }
+function clearPToken(){ ['lifeview_patient_token','lifeview_patient_user'].forEach(k=>localStorage.removeItem(k)); }
 async function pApi(path, opts={}){
   const headers = opts.headers || {};
   headers['Content-Type'] = 'application/json';
@@ -29,7 +29,7 @@ if(loginButton){
         body: JSON.stringify({ mrn: patientMrn.value, accessCode: patientAccessCode.value })
       });
       setPToken(r.token);
-      localStorage.setItem('hgy_patient_user', JSON.stringify(r.patient));
+      localStorage.setItem('lifeview_patient_user', JSON.stringify(r.patient));
       location.href = 'patient-portal.html';
     }catch(e){
       msg.textContent = e.error || 'Could not login. Check your MRN and access code.';

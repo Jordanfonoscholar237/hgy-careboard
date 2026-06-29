@@ -4,7 +4,7 @@
       "id": "u-demo-1",
       "username": "dr.alvarez",
       "fullName": "Dr. Sofia Alvarez",
-      "email": "demo@hgy.local",
+      "email": "demo@lifeview.local",
       "department": "ICU",
       "role": "doctor",
       "verified": true,
@@ -370,9 +370,28 @@
       "type": "Operations",
       "status": "Active",
       "description": "Bed management, patient movement, occupancy."
+    },
+    {
+      "name": "Maternity",
+      "type": "Clinical Department",
+      "status": "Demo ready",
+      "description": "Maternity patient monitoring, alerts, and care coordination workspace."
+    },
+    {
+      "name": "Pediatrics",
+      "type": "Clinical Department",
+      "status": "Demo ready",
+      "description": "Pediatrics patient monitoring, alerts, and care coordination workspace."
     }
   ],
   "audit": [
+    {
+      "ts": "2026-04-21T12:30:00Z",
+      "user": "device-gateway",
+      "action": "device_ingest",
+      "target": "patient",
+      "detail": "MRN-001"
+    },
     {
       "ts": "2026-05-27T00:15:14.253Z",
       "user": "patient:MRN-001",
@@ -404,5 +423,25 @@
       "createdAt": "2026-05-25T06:44:47.184Z",
       "lastLogin": "2026-05-27T00:15:14.248Z"
     }
-  ]
+  ],
+  "deviceReadings": [
+    {
+      "id": "dev-demo-1",
+      "patientId": "p1",
+      "deviceType": "bedside_monitor",
+      "deviceId": "MON-ICU-01",
+      "timestamp": "2026-04-21T12:30:00Z",
+      "values": {
+        "HR": 118,
+        "SPO2": 91,
+        "BP_SYS": 96,
+        "BP_DIA": 60,
+        "RR": 26,
+        "TEMP": 38.4,
+        "ETCO2": 35
+      },
+      "source": "demo-gateway"
+    }
+  ],
+  "aiHistory": []
 }
