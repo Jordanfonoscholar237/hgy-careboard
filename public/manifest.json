@@ -1,6 +1,6 @@
 {
-  "name": "HGY CareBoard",
-  "short_name": "HGY Care",
+  "name": "LifeView Central",
+  "short_name": "LifeView",
   "start_url": "/mobile.html",
   "display": "standalone",
   "background_color": "#07111f",
