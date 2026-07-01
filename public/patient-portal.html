@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>My HGY Patient Portal</title>
+  <title>My LifeView Patient Portal</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
         <span class="brand-mark sm" aria-hidden="true"><span></span></span>
         <div>
           <h1>My Patient Portal</h1>
-          <p class="small">YAOUNDE GENERAL HOSPITAL</p>
+          <p class="small">Yaounde General Hospital</p>
         </div>
       </div>
       <button class="btn secondary" onclick="patientLogout()">Logout</button>
@@ -30,23 +30,12 @@
       </section>
 
       <section class="patient-grid">
-        <div class="card">
-          <h3>Care Team</h3>
-          <div class="info-list" id="careTeam"></div>
-        </div>
-        <div class="card">
-          <h3>Medical Summary</h3>
-          <div class="info-list" id="medicalSummary"></div>
-        </div>
+        <div class="card"><h3>Care Team</h3><div class="info-list" id="careTeam"></div></div>
+        <div class="card"><h3>Medical Summary</h3><div class="info-list" id="medicalSummary"></div></div>
       </section>
 
       <section class="card">
-        <div class="top">
-          <div>
-            <h3>My Vital Trends</h3>
-            <p class="small">Dashboard trend preview for this portal.</p>
-          </div>
-        </div>
+        <div class="top"><div><h3>My Vital Trends</h3><p class="small">Dashboard trend preview for this portal.</p></div></div>
         <div class="grid">
           <div><canvas id="pHR" class="canvas"></canvas></div>
           <div><canvas id="pSPO2" class="canvas"></canvas></div>
@@ -55,25 +44,13 @@
       </section>
 
       <section class="patient-grid">
-        <div class="card">
-          <h3>Current Orders</h3>
-          <div class="timeline" id="patientOrders"></div>
-        </div>
-        <div class="card">
-          <h3>Lab Results</h3>
-          <div class="timeline" id="patientLabs"></div>
-        </div>
+        <div class="card"><h3>Current Orders</h3><div class="timeline" id="patientOrders"></div></div>
+        <div class="card"><h3>Lab Results</h3><div class="timeline" id="patientLabs"></div></div>
       </section>
 
       <section class="patient-grid">
-        <div class="card">
-          <h3>Imaging Updates</h3>
-          <div class="timeline" id="patientImaging"></div>
-        </div>
-        <div class="card">
-          <h3>Clinical Notes Shared With Me</h3>
-          <div class="timeline" id="patientNotes"></div>
-        </div>
+        <div class="card"><h3>Imaging Updates</h3><div class="timeline" id="patientImaging"></div></div>
+        <div class="card"><h3>Clinical Notes Shared With Me</h3><div class="timeline" id="patientNotes"></div></div>
       </section>
 
       <section class="card patient-disclaimer">

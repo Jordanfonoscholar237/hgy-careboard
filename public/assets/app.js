@@ -11,14 +11,16 @@ const TX = {
     confirm: 'Confirm password',
     login: 'Login',
     logout: 'Logout',
-    hub: 'Hospital Hub',
+    hub: 'Home / Dashboard',
+    departments: 'Departments',
     patients: 'Patients',
     monitoring: 'Monitoring',
     ai: 'AI Analysis',
     reports: 'Reports',
+    settings: 'Settings',
     audit: 'Audit',
     add: '+ Add patient',
-    search: 'Search',
+    search: 'Search patients by name, MRN, diagnosis, bed...',
     all: 'All departments',
     name: 'Name',
     mrn: 'MRN',
@@ -59,14 +61,16 @@ const TX = {
     confirm: 'Confirmer le mot de passe',
     login: 'Connexion',
     logout: 'Deconnexion',
-    hub: 'Hospital Hub',
+    hub: 'Accueil / Tableau de bord',
+    departments: 'Services',
     patients: 'Patients',
     monitoring: 'Monitoring',
     ai: 'Analyse IA',
     reports: 'Rapports',
+    settings: 'Parametres',
     audit: 'Audit',
     add: '+ Ajouter un patient',
-    search: 'Rechercher',
+    search: 'Rechercher patients...',
     all: 'Tous les services',
     name: 'Nom',
     mrn: 'MRN',
@@ -97,12 +101,12 @@ const TX = {
   }
 };
 
-function lang(){ return localStorage.getItem('hgy_lang') || 'en'; }
-function setLang(v){ localStorage.setItem('hgy_lang', v); }
+function lang(){ return localStorage.getItem('lifeview_lang') || 'en'; }
+function setLang(v){ localStorage.setItem('lifeview_lang', v); }
 function t(k){ return (TX[lang()] && TX[lang()][k]) || k; }
-function token(){ return localStorage.getItem('hgy_token') || ''; }
-function setToken(v){ localStorage.setItem('hgy_token', v); }
-function clearToken(){ localStorage.removeItem('hgy_token'); localStorage.removeItem('hgy_user'); }
+function token(){ return localStorage.getItem('lifeview_token') || ''; }
+function setToken(v){ localStorage.setItem('lifeview_token', v); }
+function clearToken(){ ['lifeview_token','lifeview_user'].forEach(k=>localStorage.removeItem(k)); }
 
 async function api(path, opts = {}){
   const headers = opts.headers || {};
@@ -119,8 +123,13 @@ function initials(n){
 }
 
 function statusBadge(s){
-  const k = s || 'stable';
-  return `<span class="badge ${k}">${t(k)}</span>`;
+  const k = String(s || 'stable').toLowerCase();
+  return `<span class="badge ${k}">${t(k) || k}</span>`;
+}
+
+function severityBadge(s){
+  const k = String(s || 'low').toLowerCase();
+  return `<span class="badge severity-${k}">${s}</span>`;
 }
 
 function attachLang(){
@@ -142,12 +151,15 @@ async function logout(){
 }
 
 function drawChart(canvas, data, label){
-  if(!canvas || !data) return;
+  if(!canvas || !data || !data.length) return;
   const ctx = canvas.getContext('2d');
   const W = canvas.width = canvas.clientWidth;
   const H = canvas.height = canvas.clientHeight;
   ctx.clearRect(0, 0, W, H);
-  ctx.fillStyle = '#08131f';
+  const grad = ctx.createLinearGradient(0, 0, W, H);
+  grad.addColorStop(0, '#052436');
+  grad.addColorStop(1, '#071827');
+  ctx.fillStyle = grad;
   ctx.fillRect(0, 0, W, H);
   ctx.strokeStyle = 'rgba(255,255,255,.10)';
   for(let y=20; y<H; y+=32){
@@ -156,23 +168,26 @@ function drawChart(canvas, data, label){
     ctx.lineTo(W, y);
     ctx.stroke();
   }
-  let vals = data.map(x=>x.v);
+  const vals = data.map(x=>Number(x.v));
   let min = Math.min(...vals);
   let max = Math.max(...vals);
   if(max - min < 1) max = min + 1;
-  ctx.strokeStyle = '#38e0d0';
-  ctx.lineWidth = 2;
+  ctx.strokeStyle = '#14b8a6';
+  ctx.lineWidth = 3;
   ctx.beginPath();
   data.forEach((p,i)=>{
-    const x = i / (data.length - 1) * W;
-    const y = H - ((p.v - min) / (max - min)) * H;
+    const x = data.length === 1 ? 0 : i / (data.length - 1) * W;
+    const y = H - ((Number(p.v) - min) / (max - min)) * H;
     if(i === 0) ctx.moveTo(x, y);
     else ctx.lineTo(x, y);
   });
   ctx.stroke();
-  ctx.fillStyle = '#e8f8fb';
-  ctx.font = '14px Arial';
-  ctx.fillText(label, 12, 20);
+  ctx.fillStyle = '#e6f7fb';
+  ctx.font = '700 14px Inter, Arial';
+  ctx.fillText(label, 12, 22);
+  ctx.fillStyle = '#67e8f9';
+  ctx.font = '800 24px Inter, Arial';
+  ctx.fillText(String(vals[vals.length - 1]), 12, 52);
 }
 
 function enableExpand(){
@@ -195,10 +210,11 @@ function enableExpand(){
   };
 }
 
-function brandLockup(){
-  return `<a class="brand-lockup" href="hub.html" aria-label="HGY CareBoard home"><span class="brand-mark" aria-hidden="true"><span></span></span><span><strong>HGY CareBoard</strong><small>Yaounde General Hospital</small></span></a>`;
+function brandLockup(size = ''){
+  const cls = size === 'sm' ? 'brand-mark sm' : 'brand-mark';
+  return `<a class="brand-lockup" href="hub.html" aria-label="LifeView Central home"><span class="${cls}" aria-hidden="true"><span></span></span><span><strong>LifeView Central</strong><small>Yaounde General Hospital</small></span></a>`;
 }
 
 function side(active = ''){
-  return `<aside class="side">${brandLockup()}<nav class="nav"><a class="${active==='hub'?'active':''}" href="hub.html">${t('hub')}</a><a class="${active==='patients'?'active':''}" href="roster.html">${t('patients')}</a><a class="${active==='reports'?'active':''}" href="reports.html">${t('reports')}</a></nav><button class="btn secondary" onclick="logout()">${t('logout')}</button></aside>`;
+  return `<aside class="side">${brandLockup()}<nav class="nav"><a class="${active==='hub'?'active':''}" href="hub.html">${t('hub')}</a><a class="${active==='hub'?'active':''}" href="hub.html#departments">${t('departments')}</a><a class="${active==='patients'?'active':''}" href="roster.html">${t('patients')}</a><a class="${active==='monitoring'?'active':''}" href="roster.html">${t('monitoring')}</a><a class="${active==='reports'?'active':''}" href="reports.html">${t('reports')} / ${t('ai')}</a><a class="${active==='reports'?'active':''}" href="reports.html#audit">${t('audit')}</a><a href="mobile.html">Mobile / PWA</a></nav><button class="btn secondary" onclick="logout()">${t('logout')}</button></aside>`;
 }

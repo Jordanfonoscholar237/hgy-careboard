@@ -4,14 +4,12 @@
       "id": "u-demo-1",
       "username": "dr.alvarez",
       "fullName": "Dr. Sofia Alvarez",
-      "email": "demo@hgy.local",
+      "email": "demo@lifeview.local",
       "department": "ICU",
       "role": "doctor",
       "verified": true,
-      "passwordHash": "ff854ee2e0f329faad096c5490a75f99:eb49c770d4eff21b02204d4f31a6ff8f37756b1d6a2c44bd38ba5217df703d6f",
-      "createdAt": "2026-05-25T05:02:59.116Z",
-      "sessionToken": "1bb8164db89b95c3c2057278e38634281aeb935be42b1fae",
-      "sessionExp": 1779718493416
+      "passwordHash": "8327601630b3b85b66910ce899d9771a:d0f08466f30c375845dbefd7f91a21761e152eaea3b3dad2db69f03ba815cf9d",
+      "createdAt": "2026-05-25T06:44:47.150Z"
     }
   ],
   "patients": [
@@ -372,36 +370,78 @@
       "type": "Operations",
       "status": "Active",
       "description": "Bed management, patient movement, occupancy."
+    },
+    {
+      "name": "Maternity",
+      "type": "Clinical Department",
+      "status": "Demo ready",
+      "description": "Maternity patient monitoring, alerts, and care coordination workspace."
+    },
+    {
+      "name": "Pediatrics",
+      "type": "Clinical Department",
+      "status": "Demo ready",
+      "description": "Pediatrics patient monitoring, alerts, and care coordination workspace."
     }
   ],
   "audit": [
     {
-      "ts": "2026-05-25T06:14:53.422Z",
-      "user": "dr.alvarez",
-      "action": "login",
-      "target": "user",
-      "detail": "dr.alvarez"
-    },
-    {
-      "ts": "2026-05-25T05:04:06.805Z",
-      "user": "dr.alvarez",
-      "action": "ai_analyze",
+      "ts": "2026-04-21T12:30:00Z",
+      "user": "device-gateway",
+      "action": "device_ingest",
       "target": "patient",
       "detail": "MRN-001"
     },
     {
-      "ts": "2026-05-25T05:03:57.861Z",
-      "user": "dr.alvarez",
-      "action": "ai_analyze",
+      "ts": "2026-05-27T00:15:14.253Z",
+      "user": "patient:MRN-001",
+      "action": "patient_login",
       "target": "patient",
       "detail": "MRN-001"
     },
     {
-      "ts": "2026-05-25T05:03:31.483Z",
+      "ts": "2026-05-25T06:47:38.904Z",
+      "user": "patient:MRN-001",
+      "action": "patient_login",
+      "target": "patient",
+      "detail": "MRN-001"
+    },
+    {
+      "ts": "2026-05-25T06:46:24.276Z",
       "user": "dr.alvarez",
       "action": "login",
       "target": "user",
       "detail": "dr.alvarez"
     }
-  ]
+  ],
+  "patientAccess": [
+    {
+      "id": "pa-demo-1",
+      "patientId": "p1",
+      "codeHash": "64f679042188d5869d948cb2a6b1f3a0:58b6c49bf02bc37b2bb0b90284b4649adbf0ca04fef74830f4ac7ea77ccabb1d",
+      "verified": true,
+      "createdAt": "2026-05-25T06:44:47.184Z",
+      "lastLogin": "2026-05-27T00:15:14.248Z"
+    }
+  ],
+  "deviceReadings": [
+    {
+      "id": "dev-demo-1",
+      "patientId": "p1",
+      "deviceType": "bedside_monitor",
+      "deviceId": "MON-ICU-01",
+      "timestamp": "2026-04-21T12:30:00Z",
+      "values": {
+        "HR": 118,
+        "SPO2": 91,
+        "BP_SYS": 96,
+        "BP_DIA": 60,
+        "RR": 26,
+        "TEMP": 38.4,
+        "ETCO2": 35
+      },
+      "source": "demo-gateway"
+    }
+  ],
+  "aiHistory": []
 }

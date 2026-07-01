@@ -1,298 +1,112 @@
-# HGY CareBoard Pro Suite
+# LifeView Central
 
-HGY CareBoard Pro Suite is a hospital patient monitoring and care coordination web application prototype for YAOUNDE GENERAL HOSPITAL.
+Hospital-wide patient monitoring platform with device data, dashboards, alerts, AI analysis, patient portal access, and mobile/PWA support.
 
-The platform is designed to support hospital teams with patient monitoring, patient records, department workflows, clinical notes, orders, labs, imaging, alerts, reports, audit history, and AI-assisted risk review.
+LifeView Central is a hospital-wide patient monitoring and clinical intelligence MVP. It demonstrates how authorized medical-device gateways or hospital APIs can send patient status into a backend, prototype database, staff dashboards, patient views, alerts, reports, and AI-assisted review.
 
-> **Important:** This project is a prototype. Do not use it for real clinical decisions, emergency care, or real patient data without proper security review, medical validation, access control, hosting configuration, and data-protection compliance.
+> Prototype and safety note: this project is for portfolio, demo, and accelerator application use. Do not use this system for diagnosis, treatment, emergency response, or live clinical decisions without hospital authorization, validated device integrations, cybersecurity review, clinical governance, and regulatory/data-protection compliance.
 
-## Features
+## Key Features
 
-- Node.js and Express backend
-- Staff signup and login
-- Email OTP verification
-- Session-based authentication
-- Hospital department and service hub
-- Patient roster with add, edit, delete, search, and filter features
-- Central patient monitoring cards
-- Detailed patient profile page
-- Admission and diagnosis information
-- Allergies and blood type tracking
-- Attending doctor and primary nurse fields
-- Connected device information
-- Monitor graphs and vital signs
-- Ventilator-related data
-- Clinical notes
-- Medical orders
-- Lab records
-- Imaging records
-- Alerts and risk queue
-- AI-assisted analysis mode
-- Audit trail
-- Reports page
-- Mobile/PWA companion interface
+- Staff authentication with email OTP development mode.
+- Role concept for doctor, nurse, biomedical engineer, and admin users.
+- Department hub for ICU, Emergency, Surgery, Radiology, Maternity, Pediatrics, Laboratory, Pharmacy, Biomedical, and Administration.
+- Patient list with add, edit, delete, search, filter, and monitoring links.
+- Patient detail page with admission data, diagnosis, allergies, attending doctor, nurse, room/bed, blood type, notes, orders, labs, imaging, alerts, and connected devices.
+- Simulated vitals and ventilator values.
+- Reports, audit logs, risk queue, and AI analysis history.
+- Mobile/PWA companion page and patient portal.
+- Device ingestion API and example JSON payloads.
 
 ## Tech Stack
 
-- Node.js
-- Express.js
-- HTML
-- CSS
-- JavaScript
-- JSON file storage for prototype data
-- Nodemailer for email verification
-- Helmet for basic security headers
-- CORS
-- Morgan request logging
-- dotenv for environment variables
+Node.js, Express.js, HTML, CSS, vanilla JavaScript, JSON prototype storage, Nodemailer, Helmet, CORS, Morgan, dotenv, PWA manifest/service worker.
 
-## Project Structure
+## Architecture
 
 ```text
-hgy-careboard-pro-suite/
-  package.json
-  server.js
-  README.md
-  .env.example
-  public/
-    index.html
-    hub.html
-    roster.html
-    patient.html
-    reports.html
-    mobile.html
-    manifest.json
-    service-worker.js
-    assets/
-      style.css
-      app.js
-      patient.js
-      images/
-        hospital-command-bg.png
-  data/
-    db.json
+Medical devices / automated machines
+  -> authorized device adapter or hospital gateway API
+  -> LifeView Central Express backend
+  -> prototype JSON database
+  -> staff dashboards + mobile/PWA + patient portal
+  -> alerts, reports, audit logs, and AI-assisted review
 ```
 
-## Run Locally
+Real integrations must use hospital-approved, vendor-supported interfaces such as HL7/FHIR, DICOM/PACS, gateway APIs, or approved protocols. Biomedical engineering, IT security, clinical leadership, and device vendors must validate any production connection.
 
-Clone the repository:
-
-```bash
-git clone https://github.com/ https://github.com/Jordanfonoscholar237/hgy-careboard.git
-```
-
-Go into the project folder:
+## Installation
 
 ```bash
+git clone https://github.com/Jordanfonoscholar237/hgy-careboard.git
 cd hgy-careboard
-```
-
-Install dependencies:
-
-```bash
 npm install
-```
-
-Create your environment file.
-
-Windows:
-
-```bash
-copy .env.example .env
-```
-
-macOS/Linux:
-
-```bash
 cp .env.example .env
-```
-
-Start the app:
-
-```bash
 npm start
 ```
 
-Open in your browser:
+Open `http://localhost:8080`.
 
-```text
-http://localhost:8080
-```
+## Local Test Credentials
 
-## Demo Login
-
-For local testing only:
+Staff portal:
 
 ```text
 Username: dr.alvarez
 Password: Password!123
 ```
 
-Change or remove demo credentials before any real deployment.
+Patient portal:
+
+```text
+MRN: MRN-001
+Access Code: PATIENT123
+```
 
 ## Environment Variables
 
-The project uses environment variables from `.env`.
+See `.env.example`.
 
-Example:
+- `EMAIL_DEV_MODE=true` prints OTP codes locally.
+- `AI_MODE=mock` or `AI_MODE=local` works without external services.
+- `AI_MODE=openai` uses `OPENAI_API_KEY` if configured.
+- `DEVICE_INGEST_API_KEY` protects the device-ingestion endpoint when set to a non-default value.
 
-```env
-PORT=8080
-APP_BASE_URL=http://localhost:8080
-SESSION_SECRET=change_this_secret
+## Device Ingestion Example
 
-EMAIL_DEV_MODE=true
-
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_SECURE=false
-SMTP_USER=your_email@gmail.com
-SMTP_PASS=your_gmail_app_password
-MAIL_FROM="HGY CareBoard <your_email@gmail.com>"
-
-AI_MODE=mock
-OPENAI_API_KEY=
-OPENAI_MODEL=gpt-4.1-mini
+```bash
+curl http://localhost:8080/api/device/examples
 ```
 
-## Email Verification
-
-For local development:
-
-```env
-EMAIL_DEV_MODE=true
+```bash
+curl -X POST http://localhost:8080/api/device/ingest \
+  -H "Content-Type: application/json" \
+  -d '{"patientId":"p1","deviceType":"bedside_monitor","deviceId":"MON-ICU-01","values":{"HR":118,"SPO2":91,"BP_SYS":96,"BP_DIA":60,"RR":26,"TEMP":38.4,"ETCO2":35}}'
 ```
 
-When development mode is enabled, OTP codes are printed in the terminal for testing.
+## Deployment Notes
 
-For real email verification:
+1. Create a Node.js web service.
+2. Set build command: `npm install`.
+3. Set start command: `npm start`.
+4. Add environment variables from `.env.example`.
+5. Keep `.env`, SMTP passwords, OpenAI keys, session secrets, and sensitive records private.
+6. Replace JSON storage with a production database before serious pilots.
 
-```env
-EMAIL_DEV_MODE=false
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_SECURE=false
-SMTP_USER=your_email@gmail.com
-SMTP_PASS=your_gmail_app_password
-MAIL_FROM="HGY CareBoard <your_email@gmail.com>"
-```
+## Repository Presentation
 
-Do not upload real SMTP passwords or private keys to GitHub.
+Suggested repository description:
 
-## AI Analysis
+> Hospital-wide patient monitoring platform with device data, dashboards, alerts, AI analysis, and mobile/PWA support.
 
-Default mode:
+Recommended topics: `healthcare`, `healthtech`, `patient-monitoring`, `hospital-management`, `medical-dashboard`, `ai-healthcare`, `iot`, `nodejs`, `express`, `pwa`.
 
-```env
-AI_MODE=mock
-```
+## License
 
-Optional external AI mode:
-
-```env
-AI_MODE=openai
-OPENAI_API_KEY=your_api_key
-OPENAI_MODEL=gpt-4.1-mini
-```
-
-Do not upload real API keys to GitHub.
-
-## GitHub Upload Notes
-
-Before uploading to GitHub, create a `.gitignore` file.
-
-Recommended `.gitignore`:
-
-```gitignore
-node_modules/
-.env
-npm-debug.log*
-.DS_Store
-.vscode/
-.idea/
-```
-
-If `data/db.json` contains real or sensitive patient information, do not upload it. Add this line to `.gitignore`:
-
-```gitignore
-data/db.json
-```
-
-For public GitHub repositories, only upload demo or fake patient data.
-
-## Deployment on Render
-
-This project can be deployed on Render as a Node.js web service.
-
-Use these settings:
-
-```text
-Runtime: Node
-Build Command: npm install
-Start Command: npm start
-```
-
-Add environment variables on Render:
-
-```text
-SESSION_SECRET=your_long_secure_secret
-EMAIL_DEV_MODE=true
-AI_MODE=mock
-```
-
-For production email sending, also add the SMTP variables shown above.
-
-After deployment, Render will provide a live link such as:
-
-```text
-https://your-app-name.onrender.com
-```
-
-## Patient Access Notes
-
-This project currently behaves like a hospital staff dashboard. It should not be treated as a full patient portal unless patient-specific access control is added.
-
-For a safe patient-facing version, add:
-
-- Patient login
-- Patient-only dashboard
-- Role-based access control
-- Access limited to one patient's own records
-- Secure database storage
-- HTTPS
-- Password reset
-- Email verification
-- Audit logging
-- Data backup
-- Privacy and security review
-
-Do not give patients access to a staff dashboard that can display other patients' information.
-
-## Production Recommendations
-
-Before using this with real patient data:
-
-- Replace JSON file storage with a secure database
-- Use strong session secrets
-- Store passwords and secrets only in environment variables
-- Use HTTPS
-- Add role-based permissions
-- Add patient-specific access rules
-- Add backup and recovery
-- Review privacy, security, and healthcare data requirements
-- Remove demo accounts and demo passwords
-- Do not store real patient data in GitHub
+MIT. See `LICENSE`.
 
 ## Contact
 
-Project owner:
-
-```text
 FONO PEVETMI JORDAN LOIC
-```
 
-Email:
-
-```text
 jordanfonoscholar237@gmail.com
-```
