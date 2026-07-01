@@ -7,31 +7,27 @@
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="assets/style.css">
 </head>
-<body>
-  <main class="auth auth-single">
+<body class="page-login">
+  <main class="auth auth-single login-screen">
     <section class="card login-unified">
       <div class="brand-hero">
         <div class="brand-lockup brand-center">
           <span class="brand-mark" aria-hidden="true"><span></span></span>
           <span>
             <strong>LifeView Central</strong>
-            <small>Hospital intelligence platform</small>
+            <small>Yaounde General Hospital</small>
           </span>
         </div>
-        <div class="brand-glow">
-          <span>Hospital intelligence</span>
-          <span>Live monitoring</span>
-          <span>Safer teamwork</span>
-        </div>
+        <p class="login-eyebrow">Secure staff access</p>
       </div>
 
-      <h1>Hospital command center for patient monitoring.</h1>
-
-      <div class="hero-pills">
-        <span>ICU</span><span>Emergency</span><span>Surgery</span><span>Radiology</span><span>Maternity</span><span>Pediatrics</span>
-      </div>
+      <h1 class="sr-only">LifeView Central staff access</h1>
 
       <div class="login-panel">
+        <div class="panel-heading">
+          <span>Workspace</span>
+          <h2>Sign in</h2>
+        </div>
         <div class="tabs">
           <button class="tab active" data-tab="login" id="tabLogin"></button>
           <button class="tab" data-tab="signup" id="tabSignup"></button>
@@ -50,12 +46,7 @@
             <div><label id="sFull"></label><input id="sFullName" class="input"></div>
             <div><label id="sUser"></label><input id="sUsername" class="input"></div>
             <div><label id="sEmail"></label><input id="sEmailInput" class="input" type="email"></div>
-            <div>
-              <label id="sDept"></label>
-              <select id="sDepartment" class="input">
-                <option>ICU</option><option>Emergency</option><option>Surgery</option><option>Radiology</option><option>Maternity</option><option>Pediatrics</option><option>Laboratory</option><option>Pharmacy</option><option>Biomedical</option><option>Administration</option>
-              </select>
-            </div>
+            <div><label id="sDept"></label><input id="sDepartment" class="input" placeholder="Department / unit"></div>
             <div>
               <label>Role</label>
               <select id="sRole" class="input">

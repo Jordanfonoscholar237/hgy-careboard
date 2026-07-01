@@ -6,10 +6,10 @@
   <title>LifeView Dashboard</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
-<body>
+<body class="page-dashboard">
   <div class="shell" id="shell">
     <main class="main">
-      <div class="top">
+      <div class="top hub-hero">
         <div>
           <p class="eyebrow">LifeView Central</p>
           <h1 id="title"></h1>
@@ -20,22 +20,6 @@
       </div>
 
       <div class="grid" id="summary"></div>
-
-      <section class="card workflow-card">
-        <h2>Clinical workflow</h2>
-        <div class="mini-flow">
-          <b>Medical devices</b>
-          <span>to</span>
-          <b>Gateway/API</b>
-          <span>to</span>
-          <b>LifeView backend</b>
-          <span>to</span>
-          <b>Dashboards</b>
-          <span>to</span>
-          <b>AI-assisted review</b>
-        </div>
-        <p class="small">Integrations should use authorized vendor interfaces, HL7/FHIR, DICOM/PACS, gateway APIs, or approved hospital protocols.</p>
-      </section>
 
       <h2 id="departments">Departments and Services</h2>
       <div class="grid" id="tiles"></div>
