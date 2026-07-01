@@ -9,3 +9,5 @@ coverage/
 dist/
 .next/
 next-env.d.ts
+.sites/
+.wrangler/
