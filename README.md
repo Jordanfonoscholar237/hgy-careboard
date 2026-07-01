@@ -66,7 +66,9 @@ hgy-careboard-pro-suite/
     assets/
       style.css
       app.js
-      hgy-sign.svg
+      patient.js
+      images/
+        hospital-command-bg.png
   data/
     db.json
 ```

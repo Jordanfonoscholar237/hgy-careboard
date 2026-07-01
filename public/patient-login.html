@@ -8,33 +8,39 @@
 </head>
 <body>
   <div class="auth patient-auth">
-    <div class="card">
-      <img class="logo" src="assets/hgy-sign.svg" alt="HGY sign">
-      <h1>Patient Portal</h1>
-      <p class="small">YAOUNDE GENERAL HOSPITAL — secure patient access</p>
-      <div class="patient-notice">
-        <b>For patients and families</b>
-        <p>Use your Medical Record Number and access code to view your own care summary, lab updates, imaging updates, current orders, and care team information.</p>
+    <section class="card auth-hero">
+      <div class="auth-copy">
+        <div class="brand-lockup">
+          <span class="brand-mark" aria-hidden="true"><span></span></span>
+          <span>
+            <strong>Patient Portal</strong>
+            <small>Yaounde General Hospital</small>
+          </span>
+        </div>
+        <h1>Secure Patient Access</h1>
+        <p class="small">View your care summary, lab updates, imaging updates, current orders, and care team information.</p>
+        <div class="patient-notice">
+          <b>For patients and families</b>
+          <p class="small">Use the Medical Record Number and access code provided by the hospital.</p>
+        </div>
+        <a class="btn secondary" href="index.html">Staff portal</a>
       </div>
-      <a class="btn secondary" href="index.html">← Staff portal</a>
-    </div>
+      <div class="facility-preview" aria-hidden="true">
+        <div class="metric-row"><span>Care team</span><b>Available</b></div>
+        <div class="metric-row"><span>Orders</span><b>Updated</b></div>
+        <div class="metric-row"><span>Results</span><b>Shared</b></div>
+      </div>
+    </section>
 
-    <div class="card">
+    <section class="card auth-panel">
       <h2>Patient Login</h2>
-      <p class="small">Enter the access details provided by the hospital.</p>
       <div id="patientLoginMsg" class="small" style="margin:.6rem 0"></div>
       <label for="patientMrn">Medical Record Number</label>
-      <input id="patientMrn" class="input" placeholder="Example: MRN-001" autocomplete="off">
+      <input id="patientMrn" class="input" autocomplete="off">
       <label for="patientAccessCode" style="margin-top:12px">Access Code</label>
-      <input id="patientAccessCode" class="input" type="password" placeholder="Enter access code">
+      <input id="patientAccessCode" class="input" type="password">
       <button id="patientLoginBtn" class="btn" style="width:100%;margin-top:14px">Open My Portal</button>
-      <div class="patient-demo-box">
-        <b>Demo patient login</b>
-        <p>MRN: <code>MRN-001</code></p>
-        <p>Access code: <code>PATIENT123</code></p>
-        <p class="small">Remove demo credentials before using this with real patients.</p>
-      </div>
-    </div>
+    </section>
   </div>
   <script src="assets/patient.js"></script>
 </body>

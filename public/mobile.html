@@ -1,1 +1,31 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="manifest.json"><title>HGY Mobile</title><link rel="stylesheet" href="assets/style.css"></head><body><div class="main"><img src="assets/hgy-sign.svg" style="width:100%;max-width:360px;border-radius:16px"><h2>HGY Mobile Viewer</h2><p class="small">Mobile/PWA companion for HGY CareBoard.</p><a class="btn" href="index.html">Open Web App</a></div><script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/service-worker.js').catch(()=>{})}</script></body></html>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="manifest" href="manifest.json">
+  <title>HGY Mobile</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <main class="card mobile-card">
+    <div class="brand-lockup">
+      <span class="brand-mark" aria-hidden="true"><span></span></span>
+      <span>
+        <strong>HGY Mobile Viewer</strong>
+        <small>Yaounde General Hospital</small>
+      </span>
+    </div>
+    <div class="facility-preview" aria-hidden="true">
+      <div class="metric-row"><span>Monitoring</span><b>Online</b></div>
+      <div class="metric-row"><span>Reports</span><b>Ready</b></div>
+    </div>
+    <a class="btn" href="index.html" style="margin-top:16px">Open Web App</a>
+  </main>
+  <script>
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+    }
+  </script>
+</body>
+</html>
