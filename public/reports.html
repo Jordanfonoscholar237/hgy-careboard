@@ -9,6 +9,7 @@
 <body>
   <div class="shell" id="shell">
     <main class="main">
+      <div id="workspaceHeader"></div>
       <div class="top">
         <div>
           <p class="eyebrow">Operations</p>
@@ -29,6 +30,7 @@
   <script>
     ensureAuth();
     shell.insertAdjacentHTML('afterbegin', side('reports'));
+    mountWorkspaceTop(workspaceHeader, 'Reports', { subtitle: 'Tenant-scoped risk queue, platform activity, and audit history.' });
     title.textContent = t('reports');
 
     async function load(){

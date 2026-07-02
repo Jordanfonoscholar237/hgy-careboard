@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hospital Admin - LifeView Central</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="shell" id="shell">
+    <main class="main">
+      <div id="workspaceHeader"></div>
+
+      <section class="admin-layout">
+        <div class="grid compact" id="adminStats"></div>
+
+        <section id="profile" class="card admin-section">
+          <div class="top">
+            <div>
+              <p class="eyebrow">Hospital profile</p>
+              <h2>Edit hospital profile</h2>
+            </div>
+          </div>
+          <form id="profileForm" class="form"></form>
+          <p id="profileMsg" class="small"></p>
+        </section>
+
+        <section id="branches" class="card admin-section">
+          <div class="top">
+            <div><p class="eyebrow">Branches</p><h2>Branch management</h2></div>
+          </div>
+          <form id="branchForm" class="form">
+            <div><label>Branch name</label><input class="input" name="name" required></div>
+            <div><label>Code</label><input class="input" name="code"></div>
+            <div><label>City</label><input class="input" name="city"></div>
+            <div><label>Phone</label><input class="input" name="phone"></div>
+            <div style="grid-column:1/-1"><label>Address</label><input class="input" name="address"></div>
+            <div><button class="btn" type="submit">Add Branch</button></div>
+          </form>
+          <div class="table-wrap" style="margin-top:14px"><table id="branchTable"></table></div>
+        </section>
+
+        <section id="services" class="card admin-section">
+          <div class="top">
+            <div><p class="eyebrow">Departments and services</p><h2>Service management</h2></div>
+          </div>
+          <form id="departmentForm" class="form">
+            <div><label>Name</label><input class="input" name="name" required></div>
+            <div><label>Type</label><select class="input" name="type"><option>Clinical</option><option>Diagnostic</option><option>Support</option><option>Operations</option></select></div>
+            <div><label>Branch</label><select class="input" name="branchId" id="deptBranch"></select></div>
+            <div><label>Status</label><select class="input" name="status"><option>active</option><option>maintenance</option><option>inactive</option></select></div>
+            <div style="grid-column:1/-1"><label>Description</label><input class="input" name="description"></div>
+            <div><button class="btn" type="submit">Add Service</button></div>
+          </form>
+          <div class="table-wrap" style="margin-top:14px"><table id="departmentTable"></table></div>
+        </section>
+
+        <section id="staff" class="card admin-section">
+          <div class="top">
+            <div><p class="eyebrow">Staff</p><h2>Add staff and assign services</h2></div>
+          </div>
+          <form id="staffForm" class="form">
+            <div><label>Full name</label><input class="input" name="fullName" required></div>
+            <div><label>Email</label><input class="input" type="email" name="email" required></div>
+            <div><label>Phone</label><input class="input" name="phone"></div>
+            <div><label>Username</label><input class="input" name="username" required></div>
+            <div><label>Password</label><input class="input" type="password" name="password" value="Password!123" required></div>
+            <div><label>Role</label><select class="input" name="role"><option value="doctor">Doctor</option><option value="nurse">Nurse</option><option value="biomedical_engineer">Biomedical Engineer</option><option value="lab_staff">Lab Staff</option><option value="radiology_staff">Radiology Staff</option><option value="pharmacy_staff">Pharmacy Staff</option><option value="hospital_admin">Hospital Admin</option></select></div>
+            <div><label>Department/service</label><select class="input" name="departmentId" id="staffDepartment"></select></div>
+            <div><label>Branch</label><select class="input" name="branchId" id="staffBranch"></select></div>
+            <div><button class="btn" type="submit">Add Staff</button></div>
+          </form>
+          <div class="table-wrap" style="margin-top:14px"><table id="staffTable"></table></div>
+        </section>
+
+        <section id="devices" class="card admin-section">
+          <div class="top">
+            <div><p class="eyebrow">Devices</p><h2>Device management</h2></div>
+            <a class="btn secondary" href="device-dashboard.html">Open Device Gateway</a>
+          </div>
+          <form id="deviceForm" class="form">
+            <div><label>Device ID</label><input class="input" name="deviceId" required></div>
+            <div><label>Device type</label><input class="input" name="deviceType" placeholder="bedside_monitor" required></div>
+            <div><label>Department</label><input class="input" name="department" placeholder="ICU"></div>
+            <div><label>Status</label><select class="input" name="status"><option>online</option><option>offline</option><option>fault</option><option>maintenance</option></select></div>
+            <div><label>Linked patient ID</label><input class="input" name="linkedPatientId" placeholder="Optional patient id"></div>
+            <div><button class="btn" type="submit">Add Device</button></div>
+          </form>
+          <div class="table-wrap" style="margin-top:14px"><table id="deviceTable"></table></div>
+        </section>
+
+        <section id="reports" class="card admin-section">
+          <p class="eyebrow">Reports</p>
+          <h2>Workspace report summary</h2>
+          <div class="grid compact" id="reportCards"></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/app.js"></script>
+  <script>
+    ensureAuth();
+    shell.insertAdjacentHTML('afterbegin', side('hospital-admin'));
+    mountWorkspaceTop(workspaceHeader, 'Hospital Admin', { subtitle: 'Manage hospital profile, branches, services, staff, devices, and reports.' });
+
+    let state = { hospital: null, branches: [], departments: [], users: [], devices: [] };
+
+    function requireHospitalAdmin(){
+      const u = currentUser();
+      if(!['hospital_admin', 'super_admin'].includes(u.role)) location.href = roleHome(u.role);
+    }
+
+    function optionList(items, labelKey = 'name'){
+      return items.map(x => `<option value="${escapeHtml(x.id)}">${escapeHtml(x[labelKey] || x.name)}</option>`).join('');
+    }
+
+    function renderProfile(){
+      const h = state.hospital || {};
+      profileForm.innerHTML = `
+        <div><label>Hospital name</label><input class="input" name="name" value="${escapeHtml(h.name || '')}"></div>
+        <div><label>Legal name</label><input class="input" name="legalName" value="${escapeHtml(h.legalName || '')}"></div>
+        <div><label>Registration number</label><input class="input" name="registrationNumber" value="${escapeHtml(h.registrationNumber || '')}"></div>
+        <div><label>Country</label><input class="input" name="country" value="${escapeHtml(h.country || '')}"></div>
+        <div><label>City</label><input class="input" name="city" value="${escapeHtml(h.city || '')}"></div>
+        <div><label>Phone</label><input class="input" name="phone" value="${escapeHtml(h.phone || '')}"></div>
+        <div><label>Email</label><input class="input" name="email" value="${escapeHtml(h.email || '')}"></div>
+        <div><label>Hospital type</label><input class="input" name="hospitalType" value="${escapeHtml(h.hospitalType || '')}"></div>
+        <div><label>Number of beds</label><input class="input" type="number" name="numberOfBeds" value="${escapeHtml(h.numberOfBeds || '')}"></div>
+        <div><label>Logo placeholder</label><input class="input" name="logoPlaceholder" value="${escapeHtml(h.logoPlaceholder || '')}"></div>
+        <div style="grid-column:1/-1"><label>Address</label><input class="input" name="address" value="${escapeHtml(h.address || '')}"></div>
+        <div><button class="btn" type="submit">Save Profile</button></div>`;
+    }
+
+    function renderTables(){
+      deptBranch.innerHTML = optionList(state.branches);
+      staffBranch.innerHTML = optionList(state.branches);
+      staffDepartment.innerHTML = optionList(state.departments);
+
+      branchTable.innerHTML = '<tr><th>Name</th><th>Code</th><th>City</th><th>Status</th><th></th></tr>' +
+        state.branches.map(b => `<tr><td>${escapeHtml(b.name)}</td><td>${escapeHtml(b.code || '')}</td><td>${escapeHtml(b.city || '')}</td><td>${statusBadge(b.status || 'active')}</td><td>${b.isDefault ? '<span class="badge">Default</span>' : `<button class="btn red" onclick="deleteBranch('${b.id}')">Delete</button>`}</td></tr>`).join('');
+      departmentTable.innerHTML = '<tr><th>Name</th><th>Type</th><th>Status</th><th>Assigned users</th><th></th></tr>' +
+        state.departments.map(d => `<tr><td>${escapeHtml(d.name)}</td><td>${escapeHtml(d.type || '')}</td><td>${statusBadge(d.status || 'active')}</td><td>${(d.userIds || []).length}</td><td><button class="btn red" onclick="deleteDepartment('${d.id}')">Delete</button></td></tr>`).join('');
+      staffTable.innerHTML = '<tr><th>Name</th><th>Role</th><th>Department</th><th>Email</th></tr>' +
+        state.users.map(u => `<tr><td><b>${escapeHtml(u.fullName || u.username)}</b><div class="small">${escapeHtml(u.username)}</div></td><td>${escapeHtml(roleLabel(u.role))}</td><td>${escapeHtml(u.department || '')}</td><td>${escapeHtml(u.email || '')}</td></tr>`).join('');
+      deviceTable.innerHTML = '<tr><th>Device</th><th>Type</th><th>Department</th><th>Linked patient</th><th>Status</th><th>Last update</th></tr>' +
+        state.devices.map(d => `<tr><td><b>${escapeHtml(d.deviceId)}</b></td><td>${escapeHtml(d.deviceType)}</td><td>${escapeHtml(d.department || '')}</td><td>${escapeHtml(d.linkedPatientName || d.linkedPatientId || '')}</td><td>${statusBadge(d.status || 'online')}</td><td>${escapeHtml(d.lastUpdate || '')}</td></tr>`).join('');
+    }
+
+    async function deleteBranch(id){
+      await api('/api/branches/' + encodeURIComponent(id), { method: 'DELETE' });
+      load();
+    }
+
+    async function deleteDepartment(id){
+      await api('/api/departments/' + encodeURIComponent(id), { method: 'DELETE' });
+      load();
+    }
+
+    async function load(){
+      requireHospitalAdmin();
+      const [me, branches, departments, users, devices, reports] = await Promise.all([
+        api('/api/hospitals/me'),
+        api('/api/branches'),
+        api('/api/departments'),
+        api('/api/users'),
+        api('/api/devices'),
+        api('/api/reports/summary')
+      ]);
+      state = {
+        hospital: me.hospital,
+        branches: branches.branches || [],
+        departments: departments.departments || [],
+        users: users.users || [],
+        devices: devices.devices || []
+      };
+      adminStats.innerHTML = `
+        <div class="card"><div class="small">Branches</div><div class="stat">${state.branches.length}</div></div>
+        <div class="card"><div class="small">Services</div><div class="stat">${state.departments.length}</div></div>
+        <div class="card"><div class="small">Staff</div><div class="stat">${state.users.length}</div></div>
+        <div class="card"><div class="small">Devices</div><div class="stat">${state.devices.length}</div></div>`;
+      reportCards.innerHTML = `
+        <div class="card soft"><div class="small">Total patients</div><div class="stat">${reports.summary.total}</div></div>
+        <div class="card soft"><div class="small">Critical</div><div class="stat">${reports.summary.critical}</div></div>
+        <div class="card soft"><div class="small">Watch</div><div class="stat">${reports.summary.watch}</div></div>
+        <div class="card soft"><div class="small">Stable</div><div class="stat">${reports.summary.stable}</div></div>`;
+      renderProfile();
+      renderTables();
+    }
+
+    profileForm.onsubmit = async e => {
+      e.preventDefault();
+      await api('/api/hospitals/me', { method: 'PUT', body: JSON.stringify(Object.fromEntries(new FormData(profileForm).entries())) });
+      profileMsg.textContent = 'Profile saved.';
+      load();
+    };
+    branchForm.onsubmit = async e => {
+      e.preventDefault();
+      await api('/api/branches', { method: 'POST', body: JSON.stringify(Object.fromEntries(new FormData(branchForm).entries())) });
+      branchForm.reset();
+      load();
+    };
+    departmentForm.onsubmit = async e => {
+      e.preventDefault();
+      await api('/api/departments', { method: 'POST', body: JSON.stringify(Object.fromEntries(new FormData(departmentForm).entries())) });
+      departmentForm.reset();
+      load();
+    };
+    staffForm.onsubmit = async e => {
+      e.preventDefault();
+      await api('/api/users', { method: 'POST', body: JSON.stringify(Object.fromEntries(new FormData(staffForm).entries())) });
+      staffForm.reset();
+      load();
+    };
+    deviceForm.onsubmit = async e => {
+      e.preventDefault();
+      await api('/api/devices', { method: 'POST', body: JSON.stringify(Object.fromEntries(new FormData(deviceForm).entries())) });
+      deviceForm.reset();
+      load();
+    };
+
+    load().catch(e => {
+      adminStats.innerHTML = `<div class="card"><b>Could not load hospital admin</b><p class="small">${escapeHtml(e.error || 'Please sign in again.')}</p></div>`;
+    });
+  </script>
+</body>
+</html>

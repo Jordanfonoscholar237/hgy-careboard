@@ -1,3 +1,5 @@
+export const dynamic = 'force-static';
+
 export default function Home(){
   return (
     <main style={{fontFamily:'Inter, system-ui, sans-serif', minHeight:'100vh', display:'grid', placeItems:'center', background:'#07131f', color:'#f3fbff'}}>

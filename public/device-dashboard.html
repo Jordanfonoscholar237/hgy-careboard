@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Device Gateway - LifeView Central</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="shell" id="shell">
+    <main class="main">
+      <div id="workspaceHeader"></div>
+
+      <section class="hub-hero" id="gateway">
+        <div class="top" style="margin:0">
+          <div>
+            <p class="eyebrow">Biomedical engineering</p>
+            <h1>Device gateway and connectivity</h1>
+            <p class="lead">Monitor connected medical devices, linked patients, departments, status, and latest gateway updates.</p>
+          </div>
+          <button class="btn" id="refreshBtn">Refresh Devices</button>
+        </div>
+      </section>
+
+      <div class="grid compact" id="deviceStats"></div>
+
+      <section id="connectivity" class="card">
+        <div class="top">
+          <div>
+            <p class="eyebrow">Connected devices</p>
+            <h2>Gateway inventory</h2>
+          </div>
+        </div>
+        <div class="table-wrap"><table id="deviceTable"></table></div>
+      </section>
+
+      <section id="maintenance" class="admin-grid">
+        <div class="card">
+          <p class="eyebrow">Ingestion contract</p>
+          <h2>Protected device ingestion</h2>
+          <p class="small">Incoming readings must include a hospitalId in the JSON body or a hospital device API key in the x-hospital-api-key header. The backend verifies that the patient belongs to the same hospital before saving readings.</p>
+          <pre id="ingestExample" class="small"></pre>
+        </div>
+        <div class="card">
+          <p class="eyebrow">Maintenance</p>
+          <h2>Status color guide</h2>
+          <p><span class="badge stable">online</span> <span class="badge warning">maintenance</span> <span class="badge high">fault</span> <span class="badge disconnected">offline</span></p>
+          <p class="small">Production deployments should add signed gateway requests, rotated API keys, replay protection, device certification, and vendor interface validation.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/app.js"></script>
+  <script>
+    ensureAuth();
+    shell.insertAdjacentHTML('afterbegin', side('devices'));
+    mountWorkspaceTop(workspaceHeader, 'Device Gateway', { subtitle: 'Biomedical view for device status, connectivity, and ingestion readiness.' });
+
+    function deviceStatus(status){
+      const s = String(status || 'online').toLowerCase();
+      if(s === 'online') return 'stable';
+      if(s === 'fault') return 'high';
+      if(s === 'offline') return 'disconnected';
+      return 'warning';
+    }
+
+    async function load(){
+      const [devices, examples] = await Promise.all([api('/api/devices'), api('/api/device/examples')]);
+      const rows = devices.devices || [];
+      const counts = rows.reduce((a, d) => {
+        const k = String(d.status || 'online').toLowerCase();
+        a[k] = (a[k] || 0) + 1;
+        return a;
+      }, {});
+      deviceStats.innerHTML = `
+        <div class="card"><div class="small">Total devices</div><div class="stat">${rows.length}</div></div>
+        <div class="card"><div class="small">Online</div><div class="stat">${counts.online || 0}</div></div>
+        <div class="card"><div class="small">Offline</div><div class="stat">${counts.offline || 0}</div></div>
+        <div class="card"><div class="small">Fault</div><div class="stat">${counts.fault || 0}</div></div>`;
+      deviceTable.innerHTML = '<tr><th>Device</th><th>Type</th><th>Department</th><th>Linked patient</th><th>Status</th><th>Last update</th></tr>' +
+        rows.map(d => `<tr>
+          <td><b>${escapeHtml(d.deviceId)}</b><div class="small">${escapeHtml(d.source || '')}</div></td>
+          <td>${escapeHtml(d.deviceType || '')}</td>
+          <td>${escapeHtml(d.department || '')}</td>
+          <td>${escapeHtml(d.linkedPatientName || d.linkedPatientId || '')}${d.bed ? `<div class="small">${escapeHtml(d.bed)}</div>` : ''}</td>
+          <td><span class="badge ${deviceStatus(d.status)}">${escapeHtml(d.status || 'online')}</span></td>
+          <td>${escapeHtml(d.lastUpdate || '')}</td>
+        </tr>`).join('');
+      ingestExample.textContent = JSON.stringify({ headers: examples.demoHeader, body: examples.examples.bedsideMonitor }, null, 2);
+    }
+
+    refreshBtn.onclick = load;
+    load().catch(e => {
+      deviceTable.innerHTML = `<tr><td>${escapeHtml(e.error || 'Could not load devices')}</td></tr>`;
+    });
+  </script>
+</body>
+</html>

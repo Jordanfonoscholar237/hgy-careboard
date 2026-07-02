@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Platform Admin - LifeView Central</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="shell" id="shell">
+    <main class="main">
+      <div id="workspaceHeader"></div>
+
+      <section class="admin-layout">
+        <div class="grid compact" id="stats"></div>
+
+        <section id="hospitals" class="card admin-section">
+          <div class="top">
+            <div>
+              <p class="eyebrow">Hospitals</p>
+              <h2>Hospital workspaces</h2>
+              <p class="small">Approve, suspend, and monitor all registered hospitals.</p>
+            </div>
+            <a class="btn secondary" href="register-hospital.html">Register Hospital</a>
+          </div>
+          <div class="table-wrap"><table id="hospitalTable"></table></div>
+        </section>
+
+        <section id="approvals" class="card admin-section">
+          <p class="eyebrow">Approvals</p>
+          <h2>Pending approval queue</h2>
+          <div id="approvalList" class="grid"></div>
+        </section>
+
+        <section id="subscriptions" class="card admin-section">
+          <p class="eyebrow">Subscriptions</p>
+          <h2>Subscription readiness</h2>
+          <p class="small">Prototype placeholder for future billing, seat limits, device limits, contract status, and tenant usage controls.</p>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/app.js"></script>
+  <script>
+    ensureAuth();
+    shell.insertAdjacentHTML('afterbegin', side('platform'));
+    mountWorkspaceTop(workspaceHeader, 'Platform Admin', { subtitle: 'View all hospitals, approve or suspend workspaces, and track platform statistics.' });
+
+    function requirePlatform(){
+      const u = currentUser();
+      if(u.role !== 'super_admin') location.href = roleHome(u.role);
+    }
+
+    async function setStatus(id, status){
+      await api('/api/admin/hospitals/' + encodeURIComponent(id) + '/status', { method: 'PUT', body: JSON.stringify({ status }) });
+      load();
+    }
+
+    function actions(h){
+      return `<button class="btn green" onclick="setStatus('${h.id}','approved')">Approve</button>
+        <button class="btn secondary" onclick="setStatus('${h.id}','pending')">Pending</button>
+        <button class="btn red" onclick="setStatus('${h.id}','suspended')">Suspend</button>`;
+    }
+
+    async function load(){
+      requirePlatform();
+      const r = await api('/api/admin/hospitals');
+      stats.innerHTML = `
+        <div class="card"><div class="small">Hospitals</div><div class="stat">${r.stats.hospitals}</div></div>
+        <div class="card"><div class="small">Approved</div><div class="stat">${r.stats.approved}</div></div>
+        <div class="card"><div class="small">Pending</div><div class="stat">${r.stats.pending}</div></div>
+        <div class="card"><div class="small">Suspended</div><div class="stat">${r.stats.suspended}</div></div>
+        <div class="card"><div class="small">Users</div><div class="stat">${r.stats.users}</div></div>
+        <div class="card"><div class="small">Devices</div><div class="stat">${r.stats.devices}</div></div>`;
+      hospitalTable.innerHTML = '<tr><th>Hospital</th><th>Location</th><th>Status</th><th>Stats</th><th>Actions</th></tr>' +
+        r.hospitals.map(h => `<tr>
+          <td><b>${escapeHtml(h.name)}</b><div class="small">${escapeHtml(h.legalName || '')}<br>${escapeHtml(h.registrationNumber || '')}</div></td>
+          <td>${escapeHtml(h.city || '')}, ${escapeHtml(h.country || '')}</td>
+          <td>${statusBadge(h.status)}</td>
+          <td><span class="badge">${h.stats.users} users</span><span class="badge">${h.stats.patients} patients</span><span class="badge">${h.stats.devices} devices</span></td>
+          <td><div class="actions">${actions(h)}</div></td>
+        </tr>`).join('');
+      const pending = r.hospitals.filter(h => h.status === 'pending');
+      approvalList.innerHTML = pending.length ? pending.map(h => `<article class="card soft">
+        <h3>${escapeHtml(h.name)}</h3>
+        <p class="small">${escapeHtml(h.city)}, ${escapeHtml(h.country)} - ${escapeHtml(h.email)}</p>
+        <div class="actions">${actions(h)}</div>
+      </article>`).join('') : '<p class="small">No pending hospitals.</p>';
+    }
+
+    load().catch(e => {
+      hospitalTable.innerHTML = `<tr><td>${escapeHtml(e.error || 'Could not load hospitals')}</td></tr>`;
+    });
+  </script>
+</body>
+</html>

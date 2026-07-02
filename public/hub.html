@@ -3,25 +3,33 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>LifeView Dashboard</title>
+  <title>LifeView Workspace</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body class="page-dashboard">
   <div class="shell" id="shell">
     <main class="main">
-      <div class="top hub-hero">
-        <div>
-          <p class="eyebrow">LifeView Central</p>
-          <h1 id="title"></h1>
-          <p class="lead">Hospital-wide patient monitoring for faster coordination and safer teamwork.</p>
-          <p class="small">Yaounde General Hospital</p>
+      <div id="workspaceHeader"></div>
+
+      <section class="hub-hero">
+        <div class="top" style="margin:0">
+          <div>
+            <p class="eyebrow">Clinical operations</p>
+            <h1 id="title">Patient monitoring dashboard</h1>
+            <p class="lead">Live patient overview, department workload, device connectivity, risk queue, and reports for the signed-in hospital workspace.</p>
+          </div>
+          <a class="btn" href="monitoring-wall.html">Open Monitoring Wall</a>
         </div>
-        <a class="btn" href="roster.html">Open Monitoring Wall</a>
+      </section>
+
+      <div class="grid stat-grid" id="summary"></div>
+
+      <div class="top">
+        <div>
+          <h2 id="departments">Departments and Services</h2>
+          <p class="small">Hospital services are loaded from this tenant workspace.</p>
+        </div>
       </div>
-
-      <div class="grid" id="summary"></div>
-
-      <h2 id="departments">Departments and Services</h2>
       <div class="grid" id="tiles"></div>
     </main>
   </div>
@@ -30,7 +38,7 @@
   <script>
     ensureAuth();
     shell.insertAdjacentHTML('afterbegin', side('hub'));
-    title.textContent = t('hub');
+    mountWorkspaceTop(workspaceHeader, 'LifeView Central', { subtitle: 'Branch selector, role context, notifications, language, and logout are available here.' });
 
     async function load(){
       summary.innerHTML = '<div class="card"><div class="small">Loading dashboard...</div></div>';
@@ -42,27 +50,20 @@
         <div class="card"><div class="small">${t('stable')}</div><div class="stat">${r.summary.stable}</div></div>`;
 
       const s = await api('/api/services');
-      const required = ['ICU','Emergency','Surgery','Radiology','Maternity','Pediatrics','Laboratory','Pharmacy','Biomedical','Administration'];
-      const map = new Map((s.services || []).map(x => [x.name, x]));
-      tiles.innerHTML = required.map(name => {
-        const u = map.get(name) || {
-          name,
-          type: 'Department',
-          status: 'Ready',
-          description: 'Department workspace for patients, alerts, devices, staffing, and reporting.'
-        };
-        return `<div class="card department-card">
-          <h2>${u.name}</h2>
-          <span class="badge">${u.type}</span>
-          <span class="badge stable">${u.status}</span>
-          <p class="small">${u.description}</p>
+      tiles.innerHTML = (s.services || []).map(u => `
+        <article class="card department-card">
+          <h2>${escapeHtml(u.name)}</h2>
+          <div>
+            <span class="badge">${escapeHtml(u.type || 'Department')}</span>
+            <span class="badge stable">${escapeHtml(u.status || 'active')}</span>
+          </div>
+          <p class="small">${escapeHtml(u.description || 'Department workspace for patients, alerts, devices, staffing, and reporting.')}</p>
           <a class="btn" href="roster.html?unit=${encodeURIComponent(u.name)}">${t('open')}</a>
-        </div>`;
-      }).join('');
+        </article>`).join('');
     }
 
     load().catch(e => {
-      summary.innerHTML = `<div class="card"><b>Could not load dashboard</b><p class="small">${e.error || 'Please sign in again.'}</p></div>`;
+      summary.innerHTML = `<div class="card"><b>Could not load dashboard</b><p class="small">${escapeHtml(e.error || 'Please sign in again.')}</p></div>`;
     });
   </script>
 </body>

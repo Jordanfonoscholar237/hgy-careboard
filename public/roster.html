@@ -9,12 +9,16 @@
 <body>
   <div class="shell" id="shell">
     <main class="main">
+      <div id="workspaceHeader"></div>
       <div class="top">
         <div>
           <h1 id="title"></h1>
-          <p class="small">Yaounde General Hospital</p>
+          <p class="small">Patients are scoped to the signed-in hospital workspace.</p>
         </div>
-        <button id="addBtn" class="btn"></button>
+        <div class="actions">
+          <a class="btn secondary" href="monitoring-wall.html">Monitoring Wall</a>
+          <button id="addBtn" class="btn"></button>
+        </div>
       </div>
 
       <div class="grid stat-grid">
@@ -28,13 +32,6 @@
           <input id="q" class="input" style="max-width:380px">
           <select id="unitFilter" class="input" style="max-width:220px">
             <option value=""></option>
-            <option>ICU</option>
-            <option>Emergency</option>
-            <option>Radiology</option>
-            <option>Surgery</option>
-            <option>Pediatrics</option>
-            <option>Maternity</option>
-            <option>Internal Med</option>
           </select>
           <select id="statusFilter" class="input" style="max-width:200px">
             <option value="">All status</option>
@@ -57,15 +54,7 @@
         <div><label id="lblMrn"></label><input id="pMrn" class="input"></div>
         <div>
           <label id="lblUnit"></label>
-          <select id="pUnit" class="input">
-            <option>ICU</option>
-            <option>Emergency</option>
-            <option>Radiology</option>
-            <option>Surgery</option>
-            <option>Pediatrics</option>
-            <option>Maternity</option>
-            <option>Internal Med</option>
-          </select>
+          <select id="pUnit" class="input"></select>
         </div>
         <div><label id="lblBed"></label><input id="pBed" class="input"></div>
         <div><label id="lblAge"></label><input id="pAge" class="input"></div>
@@ -89,9 +78,9 @@
   <script>
     ensureAuth();
     shell.insertAdjacentHTML('afterbegin', side('patients'));
+    mountWorkspaceTop(workspaceHeader, 'Patient roster', { subtitle: 'Search, filter, admit demo patients, and open monitoring details.' });
 
     let currentUnit = new URL(location.href).searchParams.get('unit') || '';
-    unitFilter.value = currentUnit;
 
     function loc(){
       title.textContent = t('patients');
@@ -118,6 +107,14 @@
       const params = new URLSearchParams({unit: unitFilter.value, q: q.value, status: statusFilter.value});
       const r = await api('/api/patients?' + params);
       render(r.patients);
+    }
+
+    async function loadDepartments(){
+      const r = await api('/api/departments');
+      const names = (r.departments || []).map(d => d.name || d);
+      unitFilter.innerHTML = `<option value="">${t('all')}</option>` + names.map(name => `<option>${escapeHtml(name)}</option>`).join('');
+      pUnit.innerHTML = names.map(name => `<option>${escapeHtml(name)}</option>`).join('');
+      unitFilter.value = currentUnit;
     }
 
     function render(ps){
@@ -155,7 +152,7 @@
     function openAdd(){
       pId.value = '';
       ['pName','pMrn','pBed','pAge','pNotes','pDiagnosis','pAllergies'].forEach(id => document.getElementById(id).value = '');
-      pUnit.value = 'ICU';
+      pUnit.value = pUnit.options[0] ? pUnit.options[0].value : 'ICU';
       pSex.value = '';
       pTag.value = '';
       pStatus.value = 'stable';
@@ -218,7 +215,7 @@
     unitFilter.onchange = load;
     statusFilter.onchange = load;
     loc();
-    load();
+    loadDepartments().then(load);
   </script>
 </body>
 </html>

@@ -1,4 +1,388 @@
 {
+  "hospitals": [
+    {
+      "id": "hosp-yaounde-general",
+      "name": "Yaounde General Hospital",
+      "legalName": "Yaounde General Hospital Demo Authority",
+      "registrationNumber": "YGH-DEMO-001",
+      "country": "Cameroon",
+      "city": "Yaounde",
+      "address": "Demo hospital campus",
+      "phone": "+237 000 000 000",
+      "email": "admin@yaounde-general.local",
+      "hospitalType": "General hospital",
+      "numberOfBeds": 420,
+      "logoPlaceholder": "YGH",
+      "status": "approved",
+      "deviceApiKey": "yg-demo-device-key",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    }
+  ],
+  "branches": [
+    {
+      "id": "branch-yaounde-main",
+      "hospitalId": "hosp-yaounde-general",
+      "name": "Main Campus",
+      "code": "MAIN",
+      "city": "Yaounde",
+      "address": "Demo hospital campus",
+      "phone": "+237 000 000 000",
+      "email": "admin@yaounde-general.local",
+      "status": "active",
+      "isDefault": true,
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    }
+  ],
+  "departments": [
+    {
+      "id": "dept-icu",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "name": "ICU",
+      "type": "Clinical",
+      "status": "active",
+      "description": "ICU workspace for patients, staff, devices, and reports.",
+      "userIds": [],
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "dept-emergency",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "name": "Emergency",
+      "type": "Clinical",
+      "status": "active",
+      "description": "Emergency workspace for patients, staff, devices, and reports.",
+      "userIds": [],
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "dept-surgery",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "name": "Surgery",
+      "type": "Clinical",
+      "status": "active",
+      "description": "Surgery workspace for patients, staff, devices, and reports.",
+      "userIds": [],
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "dept-radiology",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "name": "Radiology",
+      "type": "Diagnostic",
+      "status": "active",
+      "description": "Radiology workspace for patients, staff, devices, and reports.",
+      "userIds": [],
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "dept-maternity",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "name": "Maternity",
+      "type": "Clinical",
+      "status": "active",
+      "description": "Maternity workspace for patients, staff, devices, and reports.",
+      "userIds": [],
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "dept-pediatrics",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "name": "Pediatrics",
+      "type": "Clinical",
+      "status": "active",
+      "description": "Pediatrics workspace for patients, staff, devices, and reports.",
+      "userIds": [],
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "dept-laboratory",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "name": "Laboratory",
+      "type": "Diagnostic",
+      "status": "active",
+      "description": "Laboratory workspace for patients, staff, devices, and reports.",
+      "userIds": [],
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "dept-pharmacy",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "name": "Pharmacy",
+      "type": "Support",
+      "status": "active",
+      "description": "Pharmacy workspace for patients, staff, devices, and reports.",
+      "userIds": [],
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "dept-biomedical",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "name": "Biomedical",
+      "type": "Support",
+      "status": "active",
+      "description": "Biomedical workspace for patients, staff, devices, and reports.",
+      "userIds": [],
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "dept-administration",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "name": "Administration",
+      "type": "Operations",
+      "status": "active",
+      "description": "Administration workspace for patients, staff, devices, and reports.",
+      "userIds": [],
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    }
+  ],
+  "devices": [
+    {
+      "id": "device-mindray-benevision-10-10-30-42-f652",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "department": "ICU",
+      "deviceType": "Bedside Monitor",
+      "deviceId": "Mindray BeneVision / 10.10.30.42",
+      "linkedPatientId": "p1",
+      "status": "online",
+      "lastUpdate": "2026-04-21T12:30:00Z",
+      "source": "demo-inventory",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "device-vent-07-6521",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "department": "ICU",
+      "deviceType": "Ventilator",
+      "deviceId": "Vent-07",
+      "linkedPatientId": "p1",
+      "status": "online",
+      "lastUpdate": "2026-04-21T12:30:00Z",
+      "source": "demo-inventory",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "device-pump-12-cdb5",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "department": "ICU",
+      "deviceType": "Infusion Pump",
+      "deviceId": "Pump-12",
+      "linkedPatientId": "p1",
+      "status": "online",
+      "lastUpdate": "2026-04-21T12:30:00Z",
+      "source": "demo-inventory",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "device-tempprobe-05-2c33",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "department": "ICU",
+      "deviceType": "Temperature Probe",
+      "deviceId": "TempProbe-05",
+      "linkedPatientId": "p1",
+      "status": "online",
+      "lastUpdate": "2026-04-21T12:30:00Z",
+      "source": "demo-inventory",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "device-mindray-pm12b-10-10-30-43-529d",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "department": "ICU",
+      "deviceType": "Bedside Monitor",
+      "deviceId": "Mindray PM12B / 10.10.30.43",
+      "linkedPatientId": "p2",
+      "status": "online",
+      "lastUpdate": "2026-04-21T12:30:00Z",
+      "source": "demo-inventory",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "device-vent-08-2874",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "department": "ICU",
+      "deviceType": "Ventilator",
+      "deviceId": "Vent-08",
+      "linkedPatientId": "p2",
+      "status": "online",
+      "lastUpdate": "2026-04-21T12:30:00Z",
+      "source": "demo-inventory",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "device-pump-13-c704",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "department": "ICU",
+      "deviceType": "Infusion Pump",
+      "deviceId": "Pump-13",
+      "linkedPatientId": "p2",
+      "status": "online",
+      "lastUpdate": "2026-04-21T12:30:00Z",
+      "source": "demo-inventory",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "device-mindray-benevision-10-10-30-44-9b0d",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "department": "ICU",
+      "deviceType": "Bedside Monitor",
+      "deviceId": "Mindray BeneVision / 10.10.30.44",
+      "linkedPatientId": "p3",
+      "status": "online",
+      "lastUpdate": "2026-04-21T12:30:00Z",
+      "source": "demo-inventory",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "device-pump-14-ba66",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "department": "ICU",
+      "deviceType": "Infusion Pump",
+      "deviceId": "Pump-14",
+      "linkedPatientId": "p3",
+      "status": "online",
+      "lastUpdate": "2026-04-21T12:30:00Z",
+      "source": "demo-inventory",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "device-er-monitor-10-10-40-11-460c",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "department": "Emergency",
+      "deviceType": "Bedside Monitor",
+      "deviceId": "ER Monitor / 10.10.40.11",
+      "linkedPatientId": "e1",
+      "status": "online",
+      "lastUpdate": "2026-04-21T12:30:00Z",
+      "source": "demo-inventory",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "device-radiology-worklist-1a99",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "department": "Radiology",
+      "deviceType": "PACS",
+      "deviceId": "Radiology Worklist",
+      "linkedPatientId": "r1",
+      "status": "online",
+      "lastUpdate": "2026-04-21T12:30:00Z",
+      "source": "demo-inventory",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "device-or-monitor-10-10-50-19-4277",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "department": "Surgery",
+      "deviceType": "Anesthesia Monitor",
+      "deviceId": "OR Monitor / 10.10.50.19",
+      "linkedPatientId": "s1",
+      "status": "online",
+      "lastUpdate": "2026-04-21T12:30:00Z",
+      "source": "demo-inventory",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "device-pump-or2-730a",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "department": "Surgery",
+      "deviceType": "Infusion Pump",
+      "deviceId": "Pump-OR2",
+      "linkedPatientId": "s1",
+      "status": "online",
+      "lastUpdate": "2026-04-21T12:30:00Z",
+      "source": "demo-inventory",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "device-peds-vitals-2-0bb8",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "department": "Pediatrics",
+      "deviceType": "Vitals Cart",
+      "deviceId": "PEDS Vitals-2",
+      "linkedPatientId": "ped1",
+      "status": "online",
+      "lastUpdate": "2026-04-21T12:30:00Z",
+      "source": "demo-inventory",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "device-fm-01-4bbf",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "department": "Maternity",
+      "deviceType": "Fetal Monitor",
+      "deviceId": "FM-01",
+      "linkedPatientId": "mat1",
+      "status": "online",
+      "lastUpdate": "2026-04-21T12:30:00Z",
+      "source": "demo-inventory",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    },
+    {
+      "id": "device-mat-monitor-10-10-60-10-b121",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "department": "Maternity",
+      "deviceType": "Bedside Monitor",
+      "deviceId": "MAT Monitor / 10.10.60.10",
+      "linkedPatientId": "mat1",
+      "status": "online",
+      "lastUpdate": "2026-04-21T12:30:00Z",
+      "source": "demo-inventory",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "updatedAt": "2026-04-21T12:30:00Z"
+    }
+  ],
   "users": [
     {
       "id": "u-demo-1",
@@ -9,7 +393,36 @@
       "role": "doctor",
       "verified": true,
       "passwordHash": "8327601630b3b85b66910ce899d9771a:d0f08466f30c375845dbefd7f91a21761e152eaea3b3dad2db69f03ba815cf9d",
-      "createdAt": "2026-05-25T06:44:47.150Z"
+      "createdAt": "2026-05-25T06:44:47.150Z",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "departmentId": "dept-icu"
+    },
+    {
+      "id": "u-super-admin",
+      "username": "super.admin",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "fullName": "LifeView Platform Admin",
+      "email": "super@lifeview.local",
+      "phone": "+237 000 000 001",
+      "role": "super_admin",
+      "verified": true,
+      "passwordHash": "77fb50dd9447fe47faeed819a59236b1:148bfe504d1f1ab35ac4925256cc5e1db03de09ad428d76c94b5627c0e6e40ae"
+    },
+    {
+      "id": "u-hospital-admin",
+      "username": "hospital.admin",
+      "createdAt": "2026-04-21T12:30:00Z",
+      "fullName": "Hospital Administrator",
+      "email": "hospital.admin@yaounde-general.local",
+      "phone": "+237 000 000 002",
+      "department": "Administration",
+      "role": "hospital_admin",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main",
+      "verified": true,
+      "passwordHash": "418e9f90af9f35b365ae407777b17b63:f6af70ab555250234433a46370b4fde1ab30a2d475732f8767e7094546324000",
+      "departmentId": "dept-administration"
     }
   ],
   "patients": [
@@ -36,7 +449,9 @@
         "Ventilator": "Vent-07",
         "Infusion Pump": "Pump-12",
         "Temperature Probe": "TempProbe-05"
-      }
+      },
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "p2",
@@ -60,7 +475,9 @@
         "Bedside Monitor": "Mindray PM12B / 10.10.30.43",
         "Ventilator": "Vent-08",
         "Infusion Pump": "Pump-13"
-      }
+      },
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "p3",
@@ -83,7 +500,9 @@
       "deviceMap": {
         "Bedside Monitor": "Mindray BeneVision / 10.10.30.44",
         "Infusion Pump": "Pump-14"
-      }
+      },
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "e1",
@@ -105,7 +524,9 @@
       "primaryNurse": "Nurse Abena",
       "deviceMap": {
         "Bedside Monitor": "ER Monitor / 10.10.40.11"
-      }
+      },
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "r1",
@@ -127,7 +548,9 @@
       "primaryNurse": "Nurse Fomo",
       "deviceMap": {
         "PACS": "Radiology Worklist"
-      }
+      },
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "s1",
@@ -150,7 +573,9 @@
       "deviceMap": {
         "Anesthesia Monitor": "OR Monitor / 10.10.50.19",
         "Infusion Pump": "Pump-OR2"
-      }
+      },
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "ped1",
@@ -172,7 +597,9 @@
       "primaryNurse": "Nurse Dika",
       "deviceMap": {
         "Vitals Cart": "PEDS Vitals-2"
-      }
+      },
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "mat1",
@@ -195,7 +622,9 @@
       "deviceMap": {
         "Fetal Monitor": "FM-01",
         "Bedside Monitor": "MAT Monitor / 10.10.60.10"
-      }
+      },
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     }
   ],
   "notes": [
@@ -204,14 +633,18 @@
       "patientId": "p1",
       "ts": "2026-04-21T09:15:00Z",
       "author": "Dr. Alvarez",
-      "text": "Patient remains ventilated. Continue SpO₂ and BP trend review."
+      "text": "Patient remains ventilated. Continue SpO₂ and BP trend review.",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "n2",
       "patientId": "p2",
       "ts": "2026-04-21T10:20:00Z",
       "author": "Dr. Lee",
-      "text": "Post-operative observation. Pain score improved after medication."
+      "text": "Post-operative observation. Pain score improved after medication.",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     }
   ],
   "orders": [
@@ -221,7 +654,9 @@
       "ts": "2026-04-21T09:25:00Z",
       "author": "Dr. Alvarez",
       "status": "Active",
-      "text": "CBC, electrolytes, ABG in 4 hours"
+      "text": "CBC, electrolytes, ABG in 4 hours",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "o2",
@@ -229,7 +664,9 @@
       "ts": "2026-04-21T09:30:00Z",
       "author": "Dr. Alvarez",
       "status": "Active",
-      "text": "Maintain SpO₂ target > 94%"
+      "text": "Maintain SpO₂ target > 94%",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "o3",
@@ -237,7 +674,9 @@
       "ts": "2026-04-21T11:00:00Z",
       "author": "Dr. Lee",
       "status": "Pending",
-      "text": "Surgical wound review at 18:00"
+      "text": "Surgical wound review at 18:00",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     }
   ],
   "labs": [
@@ -248,7 +687,9 @@
       "test": "Hemoglobin",
       "value": "11.8",
       "unit": "g/dL",
-      "flag": "Normal"
+      "flag": "Normal",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "l2",
@@ -257,7 +698,9 @@
       "test": "WBC",
       "value": "13.2",
       "unit": "10^9/L",
-      "flag": "High"
+      "flag": "High",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "l3",
@@ -266,7 +709,9 @@
       "test": "Lactate",
       "value": "1.7",
       "unit": "mmol/L",
-      "flag": "Normal"
+      "flag": "Normal",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "l4",
@@ -275,7 +720,9 @@
       "test": "CRP",
       "value": "18",
       "unit": "mg/L",
-      "flag": "High"
+      "flag": "High",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     }
   ],
   "imaging": [
@@ -286,7 +733,9 @@
       "modality": "X-Ray",
       "study": "Chest X-Ray",
       "status": "Reported",
-      "summary": "Bilateral lower-zone infiltrates; lines/tubes checked."
+      "summary": "Bilateral lower-zone infiltrates; lines/tubes checked.",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "img2",
@@ -295,7 +744,9 @@
       "modality": "CT",
       "study": "CT Head",
       "status": "Pending",
-      "summary": "Awaiting radiologist report."
+      "summary": "Awaiting radiologist report.",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     }
   ],
   "alerts": [
@@ -304,14 +755,18 @@
       "patientId": "p1",
       "ts": "2026-04-21T13:05:00Z",
       "severity": "High",
-      "text": "SpO₂ trend approaching lower threshold."
+      "text": "SpO₂ trend approaching lower threshold.",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "a2",
       "patientId": "p2",
       "ts": "2026-04-21T13:10:00Z",
       "severity": "Medium",
-      "text": "Heart rate above baseline for 15 minutes."
+      "text": "Heart rate above baseline for 15 minutes.",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     }
   ],
   "services": [
@@ -320,68 +775,90 @@
       "name": "ICU",
       "type": "Clinical",
       "status": "Active",
-      "description": "Central monitoring, ventilators, pumps, critical care beds."
+      "description": "Central monitoring, ventilators, pumps, critical care beds.",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "svc-er",
       "name": "Emergency",
       "type": "Clinical",
       "status": "Active",
-      "description": "Triage, acute care, observation bays."
+      "description": "Triage, acute care, observation bays.",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "svc-rad",
       "name": "Radiology",
       "type": "Diagnostic",
       "status": "Active",
-      "description": "X-Ray, CT, ultrasound, imaging worklist."
+      "description": "X-Ray, CT, ultrasound, imaging worklist.",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "svc-surg",
       "name": "Surgery",
       "type": "Clinical",
       "status": "Active",
-      "description": "OR schedules, anesthesia monitoring, post-op tracking."
+      "description": "OR schedules, anesthesia monitoring, post-op tracking.",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "svc-lab",
       "name": "Laboratory",
       "type": "Diagnostic",
       "status": "Active",
-      "description": "CBC, chemistry, lactate, blood gases."
+      "description": "CBC, chemistry, lactate, blood gases.",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "svc-pharm",
       "name": "Pharmacy",
       "type": "Support",
       "status": "Active",
-      "description": "Medication stock, dispensing, infusion references."
+      "description": "Medication stock, dispensing, infusion references.",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "svc-biomed",
       "name": "Biomedical",
       "type": "Support",
       "status": "Active",
-      "description": "Device inventory, connectivity, alarms and maintenance."
+      "description": "Device inventory, connectivity, alarms and maintenance.",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "id": "svc-admin",
       "name": "Administration",
       "type": "Operations",
       "status": "Active",
-      "description": "Bed management, patient movement, occupancy."
+      "description": "Bed management, patient movement, occupancy.",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "name": "Maternity",
       "type": "Clinical Department",
       "status": "Demo ready",
-      "description": "Maternity patient monitoring, alerts, and care coordination workspace."
+      "description": "Maternity patient monitoring, alerts, and care coordination workspace.",
+      "id": "svc-maternity-d289",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     },
     {
       "name": "Pediatrics",
       "type": "Clinical Department",
       "status": "Demo ready",
-      "description": "Pediatrics patient monitoring, alerts, and care coordination workspace."
+      "description": "Pediatrics patient monitoring, alerts, and care coordination workspace.",
+      "id": "svc-pediatrics-e495",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     }
   ],
   "audit": [
@@ -421,7 +898,9 @@
       "codeHash": "64f679042188d5869d948cb2a6b1f3a0:58b6c49bf02bc37b2bb0b90284b4649adbf0ca04fef74830f4ac7ea77ccabb1d",
       "verified": true,
       "createdAt": "2026-05-25T06:44:47.184Z",
-      "lastLogin": "2026-05-27T00:15:14.248Z"
+      "lastLogin": "2026-05-27T00:15:14.248Z",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     }
   ],
   "deviceReadings": [
@@ -440,7 +919,9 @@
         "TEMP": 38.4,
         "ETCO2": 35
       },
-      "source": "demo-gateway"
+      "source": "demo-gateway",
+      "hospitalId": "hosp-yaounde-general",
+      "branchId": "branch-yaounde-main"
     }
   ],
   "aiHistory": []

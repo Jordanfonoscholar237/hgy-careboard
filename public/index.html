@@ -8,25 +8,69 @@
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body class="page-login">
-  <main class="auth auth-single login-screen">
-    <section class="card login-unified">
-      <div class="brand-hero">
-        <div class="brand-lockup brand-center">
-          <span class="brand-mark" aria-hidden="true"><span></span></span>
-          <span>
-            <strong>LifeView Central</strong>
-            <small>Yaounde General Hospital</small>
-          </span>
+  <main class="landing-page">
+    <nav class="landing-nav">
+      <div class="brand-lockup">
+        <span class="brand-mark" aria-hidden="true"><span></span></span>
+        <span>
+          <strong>LifeView Central</strong>
+          <small>Multi-hospital SaaS platform</small>
+        </span>
+      </div>
+      <div class="landing-actions">
+        <a class="btn" href="#login">Hospital Login</a>
+        <a class="btn secondary" href="register-hospital.html">Register Hospital</a>
+        <a class="btn secondary" href="patient-login.html">Patient Portal</a>
+        <a class="btn secondary" href="mobile.html">Mobile/PWA</a>
+      </div>
+    </nav>
+
+    <section class="landing-hero">
+      <div class="landing-copy">
+        <p class="eyebrow">Hospital operations and patient monitoring</p>
+        <h1>LifeView Central connects hospital teams to live patient status, devices, alerts, and AI-assisted review.</h1>
+        <p class="lead">Real-time patient visibility across the hospital.</p>
+        <p class="small">Built as a prototype SaaS workspace for hospital administrators, doctors, nurses, biomedical engineers, diagnostic teams, pharmacies, and patient-facing portals.</p>
+        <div class="landing-actions">
+          <a class="btn" href="#login">Hospital Login</a>
+          <a class="btn secondary" href="register-hospital.html">Register Hospital</a>
         </div>
-        <p class="login-eyebrow">Secure staff access</p>
+        <div class="landing-points" aria-label="Platform highlights">
+          <span class="pill">Tenant workspaces</span>
+          <span class="pill">Device gateway ready</span>
+          <span class="pill">Clinical monitoring wall</span>
+        </div>
       </div>
 
-      <h1 class="sr-only">LifeView Central staff access</h1>
+      <div class="floating-cards" aria-label="LifeView Central preview">
+        <article class="mini-card dark">
+          <p class="small">Live vitals</p>
+          <div class="metric-xl">HR 102</div>
+          <span class="badge warning">SpO2 93%</span>
+          <span class="badge stable">BP 118/76</span>
+        </article>
+        <article class="mini-card">
+          <p class="small">AI risk score</p>
+          <div class="metric-xl">High</div>
+          <p class="small">Prioritized review queue for simulated clinical decision support.</p>
+        </article>
+        <article class="mini-card">
+          <p class="small">Device gateway</p>
+          <div class="metric-xl">Online</div>
+          <span class="badge stable">Bedside monitor</span>
+          <span class="badge warning">Ventilator</span>
+        </article>
+        <article class="mini-card dark">
+          <p class="small">Departments</p>
+          <div class="metric-xl">10</div>
+          <p class="small">ICU, Emergency, Surgery, Radiology, Laboratory, Pharmacy, Biomedical, and more.</p>
+        </article>
+      </div>
 
-      <div class="login-panel">
+      <section class="auth-form-card login-panel" id="login">
         <div class="panel-heading">
-          <span>Workspace</span>
-          <h2>Sign in</h2>
+          <span class="eyebrow">Secure workspace</span>
+          <h2>Hospital Login</h2>
         </div>
         <div class="tabs">
           <button class="tab active" data-tab="login" id="tabLogin"></button>
@@ -34,23 +78,29 @@
           <button class="tab" data-tab="verify" id="tabVerify"></button>
         </div>
         <div id="msg" class="small alert-line"></div>
-        <div id="login" class="tabpane active">
+        <div id="loginPane" class="tabpane active">
           <label id="lUser"></label>
-          <input id="loginUser" class="input" autocomplete="username">
-          <label id="lPass"></label>
-          <input id="loginPass" class="input" type="password" autocomplete="current-password">
+          <input id="loginUser" class="input" autocomplete="username" value="hospital.admin">
+          <label id="lPass" style="margin-top:12px"></label>
+          <input id="loginPass" class="input" type="password" autocomplete="current-password" value="Password!123">
           <button id="loginBtn" class="btn" style="width:100%;margin-top:12px"></button>
+          <p class="small" style="margin-top:12px">Demo accounts: super.admin, hospital.admin, dr.alvarez. Password: Password!123.</p>
         </div>
-        <div id="signup" class="tabpane">
+        <div id="signupPane" class="tabpane">
           <div class="form">
             <div><label id="sFull"></label><input id="sFullName" class="input"></div>
             <div><label id="sUser"></label><input id="sUsername" class="input"></div>
             <div><label id="sEmail"></label><input id="sEmailInput" class="input" type="email"></div>
-            <div><label id="sDept"></label><input id="sDepartment" class="input" placeholder="Department / unit"></div>
+            <div><label id="sDept"></label><input id="sDepartment" class="input" placeholder="Department / service"></div>
             <div>
               <label>Role</label>
               <select id="sRole" class="input">
-                <option>doctor</option><option>nurse</option><option>biomedical engineer</option><option>admin</option>
+                <option value="doctor">Doctor</option>
+                <option value="nurse">Nurse</option>
+                <option value="biomedical_engineer">Biomedical Engineer</option>
+                <option value="lab_staff">Lab Staff</option>
+                <option value="radiology_staff">Radiology Staff</option>
+                <option value="pharmacy_staff">Pharmacy Staff</option>
               </select>
             </div>
             <div><label id="sPass"></label><input id="sPassword" class="input" type="password"></div>
@@ -58,28 +108,24 @@
           </div>
           <button id="signupBtn" class="btn" style="width:100%;margin-top:12px"></button>
         </div>
-        <div id="verify" class="tabpane">
+        <div id="verifyPane" class="tabpane">
           <label id="vUserLabel"></label>
           <input id="vUsername" class="input">
-          <label id="vCodeLabel"></label>
+          <label id="vCodeLabel" style="margin-top:12px"></label>
           <input id="vCode" class="input">
           <div class="actions">
             <button id="verifyBtn" class="btn"></button>
             <button id="resendBtn" class="btn secondary"></button>
           </div>
         </div>
-      </div>
-
-      <div class="login-footer">
-        <select id="lang" class="input">
-          <option value="en">English</option>
-          <option value="fr">Francais</option>
-        </select>
-        <div class="actions">
-          <a class="btn secondary" href="patient-login.html">Patient Portal</a>
-          <a class="btn secondary" href="mobile.html">Mobile/PWA</a>
+        <div class="login-footer">
+          <select id="lang" class="input">
+            <option value="en">English</option>
+            <option value="fr">Francais</option>
+          </select>
+          <a class="btn secondary" href="register-hospital.html">Register Hospital</a>
         </div>
-      </div>
+      </section>
     </section>
   </main>
 
@@ -87,43 +133,67 @@
   <script>
     attachLang();
     function loc(){
-      tabLogin.textContent=t('signin'); tabSignup.textContent=t('signup'); tabVerify.textContent=t('verify');
-      lUser.textContent=t('username'); lPass.textContent=t('password'); loginBtn.textContent=t('login');
-      sFull.textContent=t('fullName'); sUser.textContent=t('username'); sEmail.textContent=t('email'); sDept.textContent=t('department');
-      sPass.textContent=t('password'); sConfirm.textContent=t('confirm'); signupBtn.textContent=t('signup');
-      vUserLabel.textContent=t('username'); vCodeLabel.textContent=t('verification'); verifyBtn.textContent=t('submit'); resendBtn.textContent=t('resend');
+      tabLogin.textContent = t('signin');
+      tabSignup.textContent = t('signup');
+      tabVerify.textContent = t('verify');
+      lUser.textContent = t('username');
+      lPass.textContent = t('password');
+      loginBtn.textContent = t('login');
+      sFull.textContent = t('fullName');
+      sUser.textContent = t('username');
+      sEmail.textContent = t('email');
+      sDept.textContent = t('department');
+      sPass.textContent = t('password');
+      sConfirm.textContent = t('confirm');
+      signupBtn.textContent = t('signup');
+      vUserLabel.textContent = t('username');
+      vCodeLabel.textContent = t('verification');
+      verifyBtn.textContent = t('submit');
+      resendBtn.textContent = t('resend');
     }
-    document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
-      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-      document.querySelectorAll('.tabpane').forEach(x=>x.classList.remove('active'));
-      b.classList.add('active'); document.getElementById(b.dataset.tab).classList.add('active');
+    document.querySelectorAll('.tab').forEach(b => b.onclick = () => {
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('.tabpane').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      document.getElementById(b.dataset.tab + 'Pane').classList.add('active');
     });
-    loginBtn.onclick=async()=>{
-      msg.textContent='Signing in...';
-      try{
-        const r=await api('/api/login',{method:'POST',body:JSON.stringify({username:loginUser.value,password:loginPass.value})});
-        setToken(r.token); localStorage.setItem('lifeview_user',JSON.stringify(r.user)); location.href='hub.html';
-      }catch(e){
-        msg.textContent=(e.needsVerification?t('verify')+': ':'')+(e.error||t('bad'));
-        if(e.needsVerification){ vUsername.value=loginUser.value; document.querySelector('[data-tab="verify"]').click(); }
+    loginBtn.onclick = async () => {
+      msg.textContent = 'Signing in...';
+      try {
+        const r = await api('/api/login', { method: 'POST', body: JSON.stringify({ username: loginUser.value, password: loginPass.value }) });
+        setToken(r.token);
+        setCurrentUser(r.user);
+        location.href = roleHome(r.user.role);
+      } catch(e){
+        msg.textContent = (e.needsVerification ? t('verify') + ': ' : '') + (e.error || t('bad'));
+        if(e.needsVerification){
+          vUsername.value = loginUser.value;
+          document.querySelector('[data-tab="verify"]').click();
+        }
       }
     };
-    signupBtn.onclick=async()=>{
-      msg.textContent='';
-      if(sPassword.value!==sConfirmInput.value){ msg.textContent='Passwords do not match'; return; }
-      try{
-        const r=await api('/api/signup',{method:'POST',body:JSON.stringify({fullName:sFullName.value,username:sUsername.value,email:sEmailInput.value,department:sDepartment.value,role:sRole.value,password:sPassword.value})});
-        msg.textContent=t('codeSent')+(r.devOtp?` ${t('devCode')}: ${r.devOtp}`:'');
-        vUsername.value=sUsername.value; document.querySelector('[data-tab="verify"]').click();
-      }catch(e){ msg.textContent=e.error||t('bad'); }
+    signupBtn.onclick = async () => {
+      msg.textContent = '';
+      if(sPassword.value !== sConfirmInput.value){ msg.textContent = 'Passwords do not match'; return; }
+      try {
+        const r = await api('/api/signup', { method: 'POST', body: JSON.stringify({ fullName: sFullName.value, username: sUsername.value, email: sEmailInput.value, department: sDepartment.value, role: sRole.value, password: sPassword.value }) });
+        msg.textContent = t('codeSent') + (r.devOtp ? ` ${t('devCode')}: ${r.devOtp}` : '');
+        vUsername.value = sUsername.value;
+        document.querySelector('[data-tab="verify"]').click();
+      } catch(e){ msg.textContent = e.error || t('bad'); }
     };
-    verifyBtn.onclick=async()=>{
-      try{ await api('/api/verify',{method:'POST',body:JSON.stringify({username:vUsername.value,code:vCode.value})}); msg.textContent='Verified. You can login now.'; document.querySelector('[data-tab="login"]').click(); }
-      catch(e){ msg.textContent=e.error||t('bad'); }
+    verifyBtn.onclick = async () => {
+      try {
+        await api('/api/verify', { method: 'POST', body: JSON.stringify({ username: vUsername.value, code: vCode.value }) });
+        msg.textContent = 'Verified. You can login now.';
+        document.querySelector('[data-tab="login"]').click();
+      } catch(e){ msg.textContent = e.error || t('bad'); }
     };
-    resendBtn.onclick=async()=>{
-      try{ const r=await api('/api/resend-code',{method:'POST',body:JSON.stringify({username:vUsername.value})}); msg.textContent=t('codeSent')+(r.devOtp?` ${t('devCode')}: ${r.devOtp}`:''); }
-      catch(e){ msg.textContent=e.error||t('bad'); }
+    resendBtn.onclick = async () => {
+      try {
+        const r = await api('/api/resend-code', { method: 'POST', body: JSON.stringify({ username: vUsername.value }) });
+        msg.textContent = t('codeSent') + (r.devOtp ? ` ${t('devCode')}: ${r.devOtp}` : '');
+      } catch(e){ msg.textContent = e.error || t('bad'); }
     };
     loc();
   </script>

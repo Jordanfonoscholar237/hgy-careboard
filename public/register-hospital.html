@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Register Hospital - LifeView Central</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <main class="registration-page">
+    <div class="registration-shell">
+      <nav class="landing-nav">
+        <div class="brand-lockup">
+          <span class="brand-mark" aria-hidden="true"><span></span></span>
+          <span>
+            <strong>LifeView Central</strong>
+            <small>Hospital registration</small>
+          </span>
+        </div>
+        <div class="landing-actions">
+          <a class="btn secondary" href="index.html">Hospital Login</a>
+          <a class="btn secondary" href="patient-login.html">Patient Portal</a>
+        </div>
+      </nav>
+
+      <section class="registration-hero hub-hero">
+        <p class="eyebrow">Create a hospital workspace</p>
+        <h1>Register a hospital for LifeView Central</h1>
+        <p class="lead">A registration creates the hospital record, default branch, hospital admin account, and the default services used by the workspace.</p>
+      </section>
+
+      <form id="hospitalForm" class="registration-form">
+        <section class="form-section">
+          <h2>Hospital Information</h2>
+          <div class="form">
+            <div><label>Hospital name</label><input class="input" name="hospitalName" value="Yaounde General Hospital" required></div>
+            <div><label>Official/legal name</label><input class="input" name="legalName" value="Yaounde General Hospital Demo Authority" required></div>
+            <div><label>Registration number</label><input class="input" name="registrationNumber" value="YGH-NEW-001" required></div>
+            <div><label>Hospital type</label><select class="input" name="hospitalType"><option>General hospital</option><option>Teaching hospital</option><option>Specialist hospital</option><option>Clinic network</option><option>Diagnostic center</option></select></div>
+            <div><label>Logo placeholder</label><input class="input" name="logoPlaceholder" value="YGH" maxlength="6"></div>
+            <div class="logo-placeholder">Logo placeholder</div>
+          </div>
+        </section>
+
+        <section class="form-section">
+          <h2>Location & Contact</h2>
+          <div class="form">
+            <div><label>Country</label><input class="input" name="country" value="Cameroon" required></div>
+            <div><label>City</label><input class="input" name="city" value="Yaounde" required></div>
+            <div style="grid-column:1/-1"><label>Address</label><input class="input" name="address" value="Demo hospital campus" required></div>
+            <div><label>Phone</label><input class="input" name="phone" value="+237 000 000 010" required></div>
+            <div><label>Email</label><input class="input" type="email" name="email" value="workspace@hospital.local" required></div>
+          </div>
+        </section>
+
+        <section class="form-section">
+          <h2>Services & Capacity</h2>
+          <div class="form">
+            <div><label>Number of beds</label><input class="input" type="number" name="numberOfBeds" value="420" min="1" required></div>
+            <div><label>Default departments</label><input class="input" value="ICU, Emergency, Surgery, Radiology, Maternity, Pediatrics, Laboratory, Pharmacy, Biomedical, Administration" disabled></div>
+          </div>
+        </section>
+
+        <section class="form-section">
+          <h2>Admin Account</h2>
+          <div class="form">
+            <div><label>Admin full name</label><input class="input" name="adminFullName" value="Hospital Administrator" required></div>
+            <div><label>Admin email</label><input class="input" type="email" name="adminEmail" value="new.admin@hospital.local" required></div>
+            <div><label>Admin phone</label><input class="input" name="adminPhone" value="+237 000 000 011" required></div>
+            <div><label>Admin username</label><input class="input" name="adminUsername" value="new.hospital.admin" required></div>
+            <div><label>Admin password</label><input class="input" type="password" name="adminPassword" value="Password!123" required></div>
+          </div>
+        </section>
+
+        <div class="top">
+          <p id="registerMsg" class="small"></p>
+          <div class="actions">
+            <a class="btn secondary" href="index.html">Cancel</a>
+            <button class="btn" type="submit">Create Hospital Workspace</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="assets/app.js"></script>
+  <script>
+    hospitalForm.onsubmit = async event => {
+      event.preventDefault();
+      registerMsg.textContent = 'Creating hospital workspace...';
+      const body = Object.fromEntries(new FormData(hospitalForm).entries());
+      try {
+        const r = await api('/api/hospitals/register', { method: 'POST', body: JSON.stringify(body) });
+        registerMsg.innerHTML = `Workspace created for <b>${escapeHtml(r.hospital.name)}</b>. Status: ${escapeHtml(r.hospital.status)}. You can sign in with the admin username now.`;
+      } catch(e){
+        registerMsg.textContent = e.error || 'Could not register hospital.';
+      }
+    };
+  </script>
+</body>
+</html>

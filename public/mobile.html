@@ -8,25 +8,86 @@
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <main class="card mobile-card">
-    <div class="brand-lockup">
-      <span class="brand-mark" aria-hidden="true"><span></span></span>
-      <span>
-        <strong>LifeView Mobile Viewer</strong>
-        <small>Yaounde General Hospital</small>
-      </span>
-    </div>
-    <p class="lead">Fast ward-round access for clinicians, nurses, and biomedical support teams.</p>
-    <div class="grid">
-      <div class="card"><b>Critical alerts</b><p class="small">Review bed-level status from a phone or tablet.</p></div>
-      <div class="card"><b>Patient context</b><p class="small">Open patient details, orders, labs, imaging, and notes.</p></div>
-    </div>
-    <a class="btn" href="index.html" style="margin-top:16px">Open Web App</a>
+  <main class="mobile-card mobile-shell">
+      <div class="brand-lockup">
+        <span class="brand-mark" aria-hidden="true"><span></span></span>
+        <span>
+          <strong>LifeView Mobile Viewer</strong>
+          <small id="mobileHospital">LifeView Central</small>
+        </span>
+      </div>
+      <div class="top">
+        <div>
+          <p class="eyebrow">Mobile/PWA</p>
+          <h1>Active alarms and bed status</h1>
+          <p class="lead">Fast mobile view for clinicians, nurses, and biomedical support teams.</p>
+        </div>
+        <a class="btn secondary" href="index.html">Hospital Login</a>
+      </div>
+
+      <div id="mobileAuthNotice" class="empty-state" style="display:none">Sign in from the hospital login page to view live workspace data on mobile.</div>
+
+      <div class="grid compact" id="mobileStats"></div>
+      <input id="mobileSearch" class="input" placeholder="Search patient, bed, department, or MRN">
+      <section id="mobileAlarms" class="grid"></section>
+      <section class="card soft">
+        <h2>AI summary</h2>
+        <p id="mobileAi" class="small">Risk summary loads after sign-in.</p>
+      </section>
   </main>
+
+  <script src="assets/app.js"></script>
   <script>
     if('serviceWorker' in navigator){
-      navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+      navigator.serviceWorker.register('/service-worker.js').catch(() => {});
     }
+    mobileHospital.textContent = hospitalName();
+
+    function mobileCard(card){
+      const p = card.patient;
+      const latest = card.risk.latest || {};
+      const status = card.alarmStatus || 'stable';
+      return `<article class="card">
+        <div class="top" style="margin:0">
+          <div><b>${escapeHtml(p.name)}</b><p class="small">${escapeHtml(p.unit)} - ${escapeHtml(p.bed)} - ${escapeHtml(p.mrn)}</p></div>
+          ${statusBadge(status)}
+        </div>
+        <span class="badge">HR ${latest.HR || '-'}</span>
+        <span class="badge">SpO2 ${latest.SPO2 || '-'}%</span>
+        <span class="badge">BP ${latest.BP_SYS || '-'}/${latest.BP_DIA || '-'}</span>
+        <span class="badge">Risk ${card.risk.score}</span>
+        <div class="actions"><a class="btn secondary" href="patient.html?id=${encodeURIComponent(p.id)}">Open</a></div>
+      </article>`;
+    }
+
+    async function loadMobile(){
+      if(!token()){
+        mobileAuthNotice.style.display = 'block';
+        mobileStats.innerHTML = '<div class="card soft"><b>Offline preview</b><p class="small">Installable mobile shell is ready.</p></div>';
+        return;
+      }
+      const r = await api('/api/central');
+      const cards = r.cards || [];
+      const active = cards.filter(c => ['critical', 'high', 'warning'].includes(c.alarmStatus));
+      mobileStats.innerHTML = `
+        <div class="card soft"><div class="small">Active alarms</div><div class="stat">${active.length}</div></div>
+        <div class="card soft"><div class="small">Beds</div><div class="stat">${cards.length}</div></div>
+        <div class="card soft"><div class="small">Critical</div><div class="stat">${cards.filter(c => c.alarmStatus === 'critical').length}</div></div>`;
+      function render(){
+        const q = mobileSearch.value.toLowerCase();
+        const filtered = cards.filter(c => [c.patient.name, c.patient.mrn, c.patient.bed, c.patient.unit].some(v => String(v || '').toLowerCase().includes(q)));
+        mobileAlarms.innerHTML = filtered.map(mobileCard).join('') || '<div class="empty-state">No matching patients.</div>';
+      }
+      mobileSearch.oninput = render;
+      render();
+      const topRisk = [...cards].sort((a, b) => b.risk.score - a.risk.score)[0];
+      mobileAi.textContent = topRisk ? `${topRisk.patient.name} has the highest demo risk score (${topRisk.risk.score}, ${topRisk.risk.level}). Review active alarms before decisions.` : 'No patients in this workspace.';
+    }
+
+    loadMobile().catch(e => {
+      mobileAuthNotice.style.display = 'block';
+      mobileAuthNotice.textContent = e.error || 'Could not load mobile data.';
+    });
   </script>
 </body>
 </html>

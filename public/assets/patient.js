@@ -11,6 +11,10 @@ async function pApi(path, opts={}){
   return data;
 }
 function safe(v){ return v && String(v).trim() ? String(v) : 'Not provided'; }
+function patientUser(){
+  try{ return JSON.parse(localStorage.getItem('lifeview_patient_user') || '{}'); }
+  catch(e){ return {}; }
+}
 function formatDate(v){ if(!v) return 'Not provided'; try { return new Date(v).toLocaleString(); } catch(e){ return v; } }
 function timeline(items, empty){
   if(!items || !items.length) return `<div class="empty">${empty}</div>`;
@@ -49,6 +53,8 @@ async function loadPatientPortal(){
     const r = await pApi('/api/patient/detail');
     const d = r.detail;
     const p = d.patient;
+    const account = patientUser();
+    if(typeof portalHospitalName !== 'undefined') portalHospitalName.textContent = account.hospitalName || 'LifeView Central';
     portalPatientName.textContent = p.name;
     portalPatientMeta.textContent = `${p.mrn} - ${p.unit} - ${p.room || p.bed}`;
     portalPatientStatus.textContent = (p.status || 'stable').toUpperCase();

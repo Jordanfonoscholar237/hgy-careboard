@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Central Monitoring Wall - LifeView Central</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="monitoring-wall-page">
+  <div class="shell" id="shell">
+    <main class="main">
+      <div class="workspace-top wall-top">
+        <div>
+          <p class="eyebrow">Central monitoring wall</p>
+          <h1 id="wallTitle">Live vitals overview</h1>
+          <p class="small" id="wallMeta">Loading monitored beds...</p>
+        </div>
+        <div class="workspace-actions">
+          <select id="unitFilter" class="input" style="max-width:220px"><option value="">All departments</option></select>
+          <span class="pill">Auto refresh 6s</span>
+          <a class="btn secondary" href="hub.html">Workspace</a>
+        </div>
+      </div>
+
+      <div class="grid compact" id="wallStats"></div>
+      <section class="bed-grid" id="bedGrid"></section>
+    </main>
+  </div>
+
+  <script src="assets/app.js"></script>
+  <script>
+    ensureAuth();
+    shell.insertAdjacentHTML('afterbegin', side('monitoring'));
+    wallTitle.innerHTML = `LifeView Central &mdash; ${escapeHtml(hospitalName())} Monitoring Wall`;
+
+    function latest(risk, key, suffix = ''){
+      const value = risk && risk.latest ? risk.latest[key] : '';
+      return value === undefined ? '-' : `${value}${suffix}`;
+    }
+
+    function cardHtml(card){
+      const p = card.patient;
+      const risk = card.risk;
+      const alarm = card.alarmStatus || 'stable';
+      const readings = (card.devices && card.devices.readings) || [];
+      const lastUpdate = readings[0] ? new Date(readings[0].timestamp).toLocaleTimeString() : 'Simulated now';
+      return `<article class="bed-card ${escapeHtml(alarm)}">
+        <div class="top" style="margin:0">
+          <div>
+            <h2>${escapeHtml(p.name)}</h2>
+            <p class="small">${escapeHtml(p.unit)} - ${escapeHtml(p.bed)} - ${escapeHtml(p.mrn)}</p>
+          </div>
+          ${statusBadge(alarm)}
+        </div>
+        <div class="vital-list">
+          <div class="vital"><span>HR</span><b>${latest(risk, 'HR')}</b></div>
+          <div class="vital"><span>SpO2</span><b>${latest(risk, 'SPO2', '%')}</b></div>
+          <div class="vital"><span>BP</span><b>${latest(risk, 'BP_SYS')}/${latest(risk, 'BP_DIA')}</b></div>
+          <div class="vital"><span>RR</span><b>${latest(risk, 'RR')}</b></div>
+          <div class="vital"><span>Temp</span><b>${latest(risk, 'TEMP', ' C')}</b></div>
+          <div class="vital"><span>Risk</span><b>${escapeHtml(risk.level)} ${risk.score}</b></div>
+        </div>
+        <div class="top" style="margin:0">
+          <span class="badge ${escapeHtml(alarm)}">Alarm: ${escapeHtml(t(alarm) || alarm)}</span>
+          <span class="small">Last update: ${escapeHtml(lastUpdate)}</span>
+        </div>
+        <a class="btn secondary" href="patient.html?id=${encodeURIComponent(p.id)}" style="margin-top:12px">Open Patient</a>
+      </article>`;
+    }
+
+    async function loadDepartments(){
+      const r = await api('/api/departments');
+      unitFilter.innerHTML = '<option value="">All departments</option>' + (r.departments || []).map(d => `<option>${escapeHtml(d.name || d)}</option>`).join('');
+    }
+
+    async function load(){
+      const url = '/api/central' + (unitFilter.value ? '?unit=' + encodeURIComponent(unitFilter.value) : '');
+      const r = await api(url);
+      const cards = r.cards || [];
+      const counts = cards.reduce((a, c) => {
+        const key = c.alarmStatus || 'stable';
+        a[key] = (a[key] || 0) + 1;
+        return a;
+      }, {});
+      wallMeta.textContent = `${cards.length} monitored beds in ${unitFilter.value || 'all departments'}.`;
+      wallStats.innerHTML = `
+        <div class="bed-card stable"><div class="small">Stable</div><div class="stat">${counts.stable || 0}</div></div>
+        <div class="bed-card warning"><div class="small">Warning</div><div class="stat">${counts.warning || 0}</div></div>
+        <div class="bed-card high"><div class="small">High risk</div><div class="stat">${counts.high || 0}</div></div>
+        <div class="bed-card critical"><div class="small">Critical</div><div class="stat">${counts.critical || 0}</div></div>
+        <div class="bed-card disconnected"><div class="small">Disconnected</div><div class="stat">${counts.disconnected || 0}</div></div>`;
+      bedGrid.innerHTML = cards.length ? cards.map(cardHtml).join('') : '<div class="bed-card disconnected">No monitored patients found.</div>';
+    }
+
+    unitFilter.onchange = load;
+    loadDepartments().then(load);
+    setInterval(load, 6000);
+  </script>
+</body>
+</html>

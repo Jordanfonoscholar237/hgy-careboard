@@ -9,6 +9,7 @@
 <body>
   <div class="shell" id="shell">
     <main class="main">
+      <div id="workspaceHeader"></div>
       <div class="top">
         <div>
           <h1 id="title">Patient Dashboard</h1>
@@ -83,7 +84,12 @@
         <div class="card"><h2>Alerts</h2><div class="actions"><input id="newAlert" class="input" placeholder="Add manual alert..."><select id="alertSeverity" class="input" style="max-width:160px"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select><button id="addAlert" class="btn">Add alert</button></div><div id="alertsList" class="timeline"></div></div>
       </section>
       <section id="ai" class="tabpane">
-        <div class="card"><h2 id="aiTitle"></h2><button id="runAi" class="btn"></button><div id="aiBox" class="ai-box small"></div></div>
+        <div class="card">
+          <h2 id="aiTitle"></h2>
+          <p class="ai-disclaimer">Demo decision-support only. Not for clinical diagnosis or treatment.</p>
+          <button id="runAi" class="btn"></button>
+          <div id="aiBox" class="ai-box small"></div>
+        </div>
       </section>
     </main>
   </div>
@@ -93,6 +99,7 @@
   <script>
     ensureAuth();
     shell.insertAdjacentHTML('afterbegin', side('patients'));
+    mountWorkspaceTop(workspaceHeader, 'Patient detail', { subtitle: 'Vitals, connected devices, orders, labs, imaging, notes, alerts, and AI-assisted review.' });
 
     const id = new URL(location.href).searchParams.get('id');
     let currentPatient = null;
@@ -180,10 +187,10 @@
       ].join('');
 
       const dm = currentPatient.deviceMap || {};
-      devices.innerHTML = Object.entries(dm).map(([k, v]) => `<div class="device-card"><b>${k}</b><div>${v}</div><span class="badge stable">Connected</span></div>`).join('') || '<div class="empty-state">No device mapping yet.</div>';
+      devices.innerHTML = Object.entries(dm).map(([k, v]) => `<div class="device-card"><b>${escapeHtml(k)}</b><div>${escapeHtml(v)}</div><span class="badge stable">Connected</span></div>`).join('') || '<div class="empty-state">No device mapping yet.</div>';
       api('/api/device/readings?patientId=' + currentPatient.id).then(r => {
         if(r.readings.length){
-          devices.insertAdjacentHTML('beforeend', r.readings.slice(0, 4).map(x => `<div class="device-card"><b>${x.deviceType}</b><div class="small">${x.deviceId} - ${new Date(x.timestamp).toLocaleString()}</div><pre class="small">${JSON.stringify(x.values, null, 2)}</pre></div>`).join(''));
+          devices.insertAdjacentHTML('beforeend', r.readings.slice(0, 4).map(x => `<div class="device-card"><b>${escapeHtml(x.deviceType)}</b><div class="small">${escapeHtml(x.deviceId)} - ${new Date(x.timestamp).toLocaleString()}</div><span class="badge ${escapeHtml(x.status || 'stable')}">${escapeHtml(x.status || 'online')}</span><pre class="small">${escapeHtml(JSON.stringify(x.values, null, 2))}</pre></div>`).join(''));
         }
       }).catch(() => {});
 
